@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.36 in css mode. -->
+<html>
+  <head>
+    <title>step2_step3.diff</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #000000;
+        background-color: #ffffff;
+      }
+      .diff-added {
+        /* diff-added */
+        background-color: #ddffdd;
+      }
+      .diff-context {
+        /* diff-context */
+        color: #7f7f7f;
+      }
+      .diff-file-header {
+        /* diff-file-header */
+        background-color: #b3b3b3;
+        font-weight: bold;
+      }
+      .diff-header {
+        /* diff-header */
+        background-color: #cccccc;
+      }
+      .diff-hunk-header {
+        /* diff-hunk-header */
+        background-color: #cccccc;
+      }
+      .diff-indicator-added {
+        /* diff-indicator-added */
+        background-color: #ddffdd;
+      }
+      .diff-indicator-removed {
+        /* diff-indicator-removed */
+        background-color: #ffdddd;
+      }
+      .diff-removed {
+        /* diff-removed */
+        background-color: #ffdddd;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+<h2>Unified diff: <tt>step2_params</tt> <i>vs.</i> <tt>step3_trivial_mc</tt></h2>
+    <pre>
+<span class="diff-context">diff -N -u -r -b -s step2_params/CMakeLists.txt step3_trivial_mc/CMakeLists.txt
+</span><span class="diff-header">--- </span><span class="diff-header"><span class="diff-file-header">step2_params/CMakeLists.txt</span></span><span class="diff-header"> 2016-01-14 19:34:54.455789150 -0500
++++ </span><span class="diff-header"><span class="diff-file-header">step3_trivial_mc/CMakeLists.txt</span></span><span class="diff-header">     2016-06-15 11:55:09.831304545 -0400
+</span><span class="diff-hunk-header">@@ -3,5 +3,5 @@</span>
+<span class="diff-context"> 
+ find_package(ALPSCore REQUIRED)
+ 
+</span><span class="diff-indicator-removed">-</span><span class="diff-removed">add_executable(alpsdemo main.cpp)
+</span><span class="diff-indicator-added">+</span><span class="diff-added">add_executable(alpsdemo main.cpp simulation.cpp)
+</span><span class="diff-context"> target_link_libraries(alpsdemo ${ALPSCore_LIBRARIES})
+
+diff -N -u -r -b -s step2_params/main.cpp step3_trivial_mc/main.cpp
+</span><span class="diff-header">--- </span><span class="diff-header"><span class="diff-file-header">step2_params/main.cpp</span></span><span class="diff-header">       2016-06-15 10:29:08.171545142 -0400
++++ </span><span class="diff-header"><span class="diff-file-header">step3_trivial_mc/main.cpp</span></span><span class="diff-header">   2016-06-15 14:36:21.094853744 -0400
+</span><span class="diff-context">Files differ
+
+diff -N -u -r -b -s step2_params/params.ini step3_trivial_mc/params.ini
+</span><span class="diff-header">--- </span><span class="diff-header"><span class="diff-file-header">step2_params/params.ini</span></span><span class="diff-header">     2016-01-15 10:51:13.075513024 -0500
++++ </span><span class="diff-header"><span class="diff-file-header">step3_trivial_mc/params.ini</span></span><span class="diff-header"> 1969-12-31 19:00:00.000000000 -0500
+</span><span class="diff-context">File deleted
+
+diff -N -u -r -b -s step2_params/simulation.cpp step3_trivial_mc/simulation.cpp
+</span><span class="diff-header">--- </span><span class="diff-header"><span class="diff-file-header">step2_params/simulation.cpp</span></span><span class="diff-header"> 1969-12-31 19:00:00.000000000 -0500
++++ </span><span class="diff-header"><span class="diff-file-header">step3_trivial_mc/simulation.cpp</span></span><span class="diff-header">     2016-06-15 12:00:13.967290368 -0400
+</span><span class="diff-context">New file
+
+diff -N -u -r -b -s step2_params/simulation.hpp step3_trivial_mc/simulation.hpp
+</span><span class="diff-header">--- </span><span class="diff-header"><span class="diff-file-header">step2_params/simulation.hpp</span></span><span class="diff-header"> 1969-12-31 19:00:00.000000000 -0500
++++ </span><span class="diff-header"><span class="diff-file-header">step3_trivial_mc/simulation.hpp</span></span><span class="diff-header">     2016-06-15 12:07:16.203270687 -0400
+</span><span class="diff-context">New file
+</span>
+</pre>
+  </body>
+</html>

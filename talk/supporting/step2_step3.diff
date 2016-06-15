@@ -1,0 +1,31 @@
+diff -N -u -r -b -s step2_params/CMakeLists.txt step3_trivial_mc/CMakeLists.txt
+--- step2_params/CMakeLists.txt	2016-01-14 19:34:54.455789150 -0500
++++ step3_trivial_mc/CMakeLists.txt	2016-06-15 11:55:09.831304545 -0400
+@@ -3,5 +3,5 @@
+ 
+ find_package(ALPSCore REQUIRED)
+ 
+-add_executable(alpsdemo main.cpp)
++add_executable(alpsdemo main.cpp simulation.cpp)
+ target_link_libraries(alpsdemo ${ALPSCore_LIBRARIES})
+
+diff -N -u -r -b -s step2_params/main.cpp step3_trivial_mc/main.cpp
+--- step2_params/main.cpp	2016-06-15 10:29:08.171545142 -0400
++++ step3_trivial_mc/main.cpp	2016-06-15 14:36:21.094853744 -0400
+Files differ
+
+diff -N -u -r -b -s step2_params/params.ini step3_trivial_mc/params.ini
+--- step2_params/params.ini	2016-01-15 10:51:13.075513024 -0500
++++ step3_trivial_mc/params.ini	1969-12-31 19:00:00.000000000 -0500
+File deleted
+
+diff -N -u -r -b -s step2_params/simulation.cpp step3_trivial_mc/simulation.cpp
+--- step2_params/simulation.cpp	1969-12-31 19:00:00.000000000 -0500
++++ step3_trivial_mc/simulation.cpp	2016-06-15 12:00:13.967290368 -0400
+New file
+
+diff -N -u -r -b -s step2_params/simulation.hpp step3_trivial_mc/simulation.hpp
+--- step2_params/simulation.hpp	1969-12-31 19:00:00.000000000 -0500
++++ step3_trivial_mc/simulation.hpp	2016-06-15 12:07:16.203270687 -0400
+New file
+
