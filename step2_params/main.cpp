@@ -11,12 +11,12 @@ int main(int argc, char** argv)
         .define<int>("count", 1, "How many times to greet")
         .define("loud", "Should we be \"loud\"?");
 
-    if (p.has_missing(std::cerr))
-        return 2;
-    
     if (p.help_requested(std::cerr))
         return 1;
 
+    if (p.has_missing(std::cerr))
+        return 2;
+    
     std::string ending=p["loud"]?"!!!":".";
     for (int i=0; i<p["count"]; ++i) {
         std::cout << "Hello, " << p["name"].as<std::string>() << ending << "\n";

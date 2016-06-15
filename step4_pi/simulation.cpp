@@ -1,5 +1,4 @@
 #include "simulation.hpp"
-
 #include <cmath>
 
 bool MySimulation::is_inside_area(double x, double y) {
@@ -65,6 +64,5 @@ MySimulation::parameters_type& MySimulation::define_parameters(MySimulation::par
         .description("Demo Monte Carlo program")
         .define<long>("count", 0, "Number of steps to go (0: till timeout)")
         .define<long>("burn-in", 10000, "Number of steps before taking measurements")
-        .define<double>("step", "Maximum size of a trial step")
-
+        .define<double>("step", "Maximum size of a trial step");
 }

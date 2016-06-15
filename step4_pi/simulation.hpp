@@ -1,5 +1,6 @@
-#include <alps/mc/mcbase.hpp>
+#pragma once
 
+#include <alps/mc/mcbase.hpp>
 #include <alps/accumulators.hpp>
 
 class MySimulation : public alps::mcbase {
@@ -22,10 +23,8 @@ class MySimulation : public alps::mcbase {
     MySimulation(const parameters_type& params, std::size_t seed_offset=0);
 
     void update();
-
     void measure();
-
     double fraction_completed() const;
     
-    static parameters_type& define_parameters(parameters_type& params);        
+    static parameters_type& define_parameters(parameters_type&);        
 };

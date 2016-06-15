@@ -8,6 +8,7 @@ lstset={escapeinside={\#(}{)},style=basic,basicstyle=\small,basewidth=0.5em,emph
 definecolor={babyblue}{rgb}{0.54, 0.81, 0.94}
 definecolor={ballblue}{rgb}{0.13, 0.67, 0.8}
 definecolor={albatrosred}{HTML}{CA4436}
+newcommand={\code}[1]{\texttt{#1}}
 [autotemplate]>
 
 == Introduction == 
@@ -237,11 +238,14 @@ $ cmake ..
 [code]>
 
 ==== Using ALPSCore in your program ====[t]
-_blue_A few possible catches:_
+_blue_A few tips and possible catches:_
 
-* Catch: if compilers change: \\ @\$ rm -rf CMake*@
+* Most of times, it is enough to remake after any file changes: \\ @\$ make@
+* To speed up on 4 cores:\\@\$ make -j4@
 * Catch: if CMake files change: \\ @\$ cmake .@ \\ in the build directory
+* Catch: if compilers change: \\ @\$ rm -rf CMake*@
 * Catch: after accidental in-source build,\\ remove the generated files.
+* Catch: if the library (@ALSPCore@ itself) has changed, regenerate: \\ @\$ cmake .@ \\ in the build directory
 
 ==== Exercise 4 ====
 _blue_Exercise 4:_ Build and run a dummy program\\ that uses ALPSCore and does nothing.
@@ -274,7 +278,7 @@ $ ./alpsdemo
 Features:
 
 * One can use input file, override with command line.
-* Input file may contain sections.
+* Input file may contain sections: @[title]@
 * Parameters must be defined to make it known.
 * Unknown parameters in silently ignored.
 * Auto-generated help message.
@@ -284,9 +288,10 @@ Features:
 
 <[nowiki]
 %<[code][language=sh,emph={ALPSCore_DIR},emphstyle=\color{blue},basicstyle=\ttfamily]
-%$ ./demo --help
-%$ ./demo --name=value
-%$ ./demo --flag
+%$ ./alpsdemo --help
+%$ ./alpsdemo --name=value
+%$ ./alpsdemo --loud --name=value
+%$ ./alpsdemo --loud --name=value
 %[code]>
 [nowiki]>
 
@@ -298,10 +303,11 @@ _blue_Exercise 5:_ Build and run a program\\ that uses parameters.
 The code is at \texttt{\color{ballblue}\$tutorial/step2\_params}.
 
 CMake file online: \url{https://https://github.com/ALPSCore/tutorial2/blob/master/step2_params/CMakeLists.txt}\\
-Source file online: \url{https://https://github.com/ALPSCore/tutorial2/blob/master/step2_params/main.cpp}
+Source file online: \url{https://https://github.com/ALPSCore/tutorial2/blob/master/step2_params/main.cpp}\\
+Parameters file online: \url{https://https://github.com/ALPSCore/tutorial2/blob/master/step2_params/params.ini}
 
 * Play with the different values of parameters. 
-* Try to override them form the command line.
+* Try to override them from the command line.
 * Change the program to make @--loud@ parameter an integer, \\ with @0@ meaning ``be quiet''.
 +<2>{
 <[code][language=sh,emph={cd,mkdir},basicstyle=\ttfamily\small]
@@ -312,8 +318,8 @@ $ cmake ..
 $ make
 $ ./alpsdemo
 $ ./alpsdemo --help
-$ ./alpsdemo params.ini
-$ ./alpsdemo params.ini --count=3
+$ ./alpsdemo ../params.ini
+$ ./alpsdemo ../params.ini --count=3
 ....
 [code]>
 }
@@ -321,20 +327,29 @@ $ ./alpsdemo params.ini --count=3
 ==== Simple simulation class (doing nothing) ====
 
 * Simulation that just says ``I am running.''
-* Derived from @alps::mc\_base@ class.
-* Should define:
-** @void measure()@
-** @void update()@
-** @double fraction_completed()@
+* Derived from \code{\color{ballblue}alps::mc\_base} class.
+* Must define virtual methods:
+** @_blue_void measure()_@
+** @_blue_void update()_@
+** \code{\color{blue}double fraction\_completed()}
+* Should define static method:
+** \code{\color{blue}static\\parameters\_type\&~define\_parameters(parameters\_type\&)}
+* Passes to the base class constructor:
+** parameters object
+** a PRNG seed offset (will be needed for parallel simulations)
 
 ==== Simple simulation class (doing nothing) ====
 
-*Exercise:
-** Build and run.
-** Change the name of the @update()@ method and see it does not compile any more.
-** Change @fraction_completed()@ to always return $<1$.
-
-!FIXME: more? !
+Exercise:
+* Build and run.
+* Run with small counts.
+* Run with large count and small timelimit; time the execution:\\@\$ time -p ''your\_command''@
++<2>{
+<[code][language=sh,emph={time}]
+$ time -p ./alpsdemo --count=10000000 --timelimit=1
+[code]>}
+* Change @fraction\_completed()@ so that @--count=0@ would mean ``till timeout''.
+* Change the name of the @update()@ method\\and see it does not compile any more.
 
 ==== Compute $\pi$ by Markov chain MC ====
 The problem:
@@ -387,7 +402,7 @@ Note: the simulation code is split into 2 files.
 *** Via @save()@/@load()@ class members
 *** Via traits (harder to do --- more complex code)
 * Parameters can be constructed from HDF5 file too
-** Should not try to define them again in this case! \\ Use @my\_params.is\_restored()@.
+** Should not try to define them again in this case! \\ Use @par.is\_restored()@.
 
 ==== Running and resuming  ====
 
@@ -423,50 +438,53 @@ $ ./alpsdemo alpsdemo.clone.h5 --timelimit 10
 *# Make sure that the parallel processes \\ do not conflict for input/output
 *# Use special constructor for parameters
 * Note that the completion is checked only at certain intervals (1 sec minimum)
+* Look at the code changes in your handouts.
 
-See the next slides for code changes!
--- 3\baselineskip --
-==== MPI: Header files ====
-
-<[code][style=basic,language=C++,basicstyle=\small\ttfamily,basewidth=0.4em]
-#include <alps/mc/stop_callback.hpp>
-
-[<2>#include <alps/mc/mpiadapter.hpp>]
-
-class MySimulation : public alps::mcbase {
-// ... rest of your class ...
-};
-
-[<2>typedef alps::mcmpiadapter<MySimulation> MyMpiSimulation;]
-// ... rest of your program ...
-[code]>
-
-==== MPI: main() ====
-
-<[code][language=C++,basicstyle=\small\ttfamily,basewidth=0.4em]
-    alps::params p(argc, (const char**)argv);
-[<1>    MySimulation::define_parameters(p)][<2>    MyMpiSimulation::define_parameters(p)]
-            .description("Dummy Monte Carlo program")
-// etc...
-[<2>    // init MPI, obtain communicator]
-[<2>    alps::mpi::environment mpi_env(argc, argv);]
-[<2>    alps::mpi::communicator comm;]
-[<2>    // Parse the parameters on master...]
-[<2>    alps::params p;]
-[<2>    if (comm.rank()==0) { // on master process...]
-[<2>        alps::params p_master(argc, (const char**)argv);]
-[<2>        p=p_master;]
-[<2>    }]
-[<2>    broadcast(comm, p, 0); // ...broadcast parameters to all.]
-//....         
-[code]> 
+<[nowiki]
+% See the next slides for code changes!
+% -- 3\baselineskip --
+% ==== MPI: Header files ====
+% 
+% <[code][style=basic,language=C++,basicstyle=\small\ttfamily,basewidth=0.4em]
+% #include <alps/mc/stop_callback.hpp>
+% 
+% [<2>#include <alps/mc/mpiadapter.hpp>]
+% 
+% class MySimulation : public alps::mcbase {
+% // ... rest of your class ...
+% };
+% 
+% [<2>typedef alps::mcmpiadapter<MySimulation> MyMpiSimulation;]
+% // ... rest of your program ...
+% [code]>
+% 
+% ==== MPI: main() ====
+% 
+% <[code][language=C++,basicstyle=\small\ttfamily,basewidth=0.4em]
+%     alps::params p(argc, (const char**)argv);
+% [<1>    MySimulation::define_parameters(p)][<2>    MyMpiSimulation::define_parameters(p)]
+%             .description("Dummy Monte Carlo program")
+% // etc...
+% [<2>    // init MPI, obtain communicator]
+% [<2>    alps::mpi::environment mpi_env(argc, argv);]
+% [<2>    alps::mpi::communicator comm;]
+% [<2>    // Parse the parameters on master...]
+% [<2>    alps::params p;]
+% [<2>    if (comm.rank()==0) { // on master process...]
+% [<2>        alps::params p_master(argc, (const char**)argv);]
+% [<2>        p=p_master;]
+% [<2>    }]
+% [<2>    broadcast(comm, p, 0); // ...broadcast parameters to all.]
+% //....         
+% [code]> 
+[nowiki]>
 
 ==== Exercise: MPI ====
 
 * Build the MPI-parallelized program.
-* Run with different number of processes. 
+* Do timed runs with different number of processes. 
 * Observe checkpoint names.
-* Try to restore from checkpoints.
+* Try to restore from checkpoints, see how statistics builds up.
 
 ==== Exercise: 2D Ising simulation ====
 

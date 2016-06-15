@@ -1,8 +1,5 @@
 #include <iostream>
-
-#include <alps/params.hpp>
 #include <alps/mc/stop_callback.hpp>
-
 #include "simulation.hpp"
 
 int main(int argc, char** argv)
@@ -15,7 +12,7 @@ int main(int argc, char** argv)
 
     // Define the parameters
     mysim_type::define_parameters(p)
-        .define<int>("timelimit", 5, "Time limit for the computation");
+      .define<std::size_t>("timelimit", 5, "Time limit for the computation");
         
     if (p.help_requested(std::cerr) || p.has_missing(std::cerr))
         return 1;
@@ -28,21 +25,23 @@ int main(int argc, char** argv)
     std::cout << "Starting simulation"
               << std::endl;
 
-    mysim.run(alps::stop_callback(int(p["timelimit"])));
+    mysim.run(alps::stop_callback(std::size_t(p["timelimit"])));
 
     std::cout << "Simulation finished"
-              << "\nCollecting results..." << std::endl;
+              << std::endl
+              << "Collecting results..."
+              << std::endl;
     
     alps::accumulators::result_set results=mysim.collect_results();
 
     // Print all results:
-    std::cout << "All results: " << results << std::endl;
+    std::cout << "All results:\n" << results << std::endl;
 
     // Access individual results:
     const alps::accumulators::result_wrapper& obj=results["objective"];
-    std::cout << "Simulation ran for: "
+    std::cout << "Simulation ran for "
               << obj.count()
-              " steps." << std::endl;
+              << " steps." << std::endl;
 
     // should get $\pi$:
     const alps::accumulators::result_wrapper& pi_res=obj*4.;
@@ -57,5 +56,4 @@ int main(int argc, char** argv)
     std::cout << "Autocorrelation length: "
               << pi_res.autocorrelation<double>()
               << std::endl;
-    }
 }
