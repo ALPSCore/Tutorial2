@@ -1,0 +1,503 @@
+<[autotemplate]
+title={ALPSCore tutorial}
+author={Alexander Gaenko}
+usetheme={Frankfurt}
+usecolortheme={whale}
+lstloadlanguages={sh,C++}
+lstset={escapeinside={\#(}{)},style=basic,basicstyle=\small,basewidth=0.5em,emphstyle={\color{blue}}}
+definecolor={babyblue}{rgb}{0.54, 0.81, 0.94}
+definecolor={ballblue}{rgb}{0.13, 0.67, 0.8}
+definecolor={albatrosred}{HTML}{CA4436}
+[autotemplate]>
+
+== Introduction == 
+
+====  ====
+
+<[center]
+'''_blue_INTRODUCTION_'''
+[center]>
+
+==== What it is about ====
+ALPSCore originated from Algorithms and Libraries for Physics Simulations (ALPS) \url{http://alps.comp-phys.org}\\
+'''The grand idea''': 
+Make the _blue_library code_ 
+from ALPS available with 
+_blue_shorter development cycle_ and
+_blue_decent documentation_.
+
+* What is the _ballblue_library code_?
+** That will most probably useful for many applications.
+** However, ALPSCore is oriented towards Monte Carlo.
+
+* What is the _ballblue_development cycle_? 
+** Introducing features (by request?)
+** Testing the features
+** Fixing bugs
+** Documenting
+
+* What is _ballblue_decent documentation_?
+** User's documentations
+** Tutorials (like this one!)
+** Developer's Doxygen-generated reference.
+
+==== Web sites ====
+
+Contributors:
+* Emanuel Gull's group, University of Michigan (USA);
+* Lukas Gamper, ETH Zurich (Switzerland);
+* ... and many other ALPS contributors.
+
+* Source code: \url{https://github.com/ALPSCore/ALPSCore}
+* Documentation \& tutorials:  \url{http://alpscore.org}
+* CloudBees for Continuous Delivery. 
+
+<<<alpscore_sites.pdf,height=0.3\textheight>>>
+
+
+==== Why to use ALPSCore? ====
+
+Think of a typical MC simulation to-do:
+
+# _ballblue_Read the simulation parameters._
+# _albatrosred_Decide the step in the phase space._
+# _albatrosred_Calculate ("measure") the values of interest._
+# _ballblue_Collect statistics properly, taking into account autocorrelation._
+# _ballblue_Compute derived values with proper error propagation._
+# _ballblue_Save intermediate results regularly._
+# _ballblue_Set the step or time limit on the simulation._
+# _ballblue_Parallelize the whole thing._
+
+Except the _albatrosred_highlighted items_, everything else is "boilerplate".\\
+Sometimes non-trivial one!
+
+_blue_Use ALPSCore to minimize boilerplate programming and concentrate on relevant science._
+
+==== Overview ====
+<<<alpscore_classes.pdf,height=0.8\textheight,width=\textwidth,keepaspectratio>>>
+
+
+== Installing ALPSCore  == 
+
+==== ====
+<[center]
+'''_blue_INSTALLING ALPSCore_'''
+[center]>
+
+==== Tutorial prerequisites ====
+_blue_What do you need to_ ''_blue_know?_''
+# Basic Unix command-line operations
+# Basic C++
+# Optional: git
+# Optional: installing packages for your OS
+# Optional: CMake
+
+_blue_What do you need to_ ''_blue_have?_''
+# Git
+# CMake
+# C++ compiler
+# HDF5 package
+# Boost package
+# MPI package
+
+
+==== Obtainig ALPSCore ====
+'''How to get ALPSCore?'''
+* Downloading release: \\ \hspace{-1em}\url{https://github.com/ALPSCore/ALPSCore/releases}
+* Getting from GitHub: \\ \hspace{-1em}@git clone https://github.com/ALPSCore/ALPSCore.git@
+* Installing an ALPSCore package:
+** Via @macports@ or @homebrew@ on  MacOS~X.
+** Via @portage@ on Gentoo Linux.
+** Debian or RedHat binary packages may be created\\ if demand arises.
+-- 2\baselineskip --
+
+==== Building and compilation ====
+
+There are (of course\!) prerequisites.
+
+* _blue_Tools_:
+** C++03  (not @C++1x@ --- by policy). \\Tested with GCC 4.2+, Intel 10.0+, Clang 3.2+
+** CMake 2.8.12+
+
+* _blue_Libraries_:
+** HDF5 1.8+
+** Boost 1.54.0+
+** MPI (technically, optional)
+** GoogleTest (included!)
+
+==== Building and compilation ====
+
+* ALPSCore will try to find Boost, HDF5 and MPI. 
+* Usually, if you can run @mpicc@, ALPSCore will also find MPI.
+* Building using CMake command line:
+
+<[code][language=sh,emph={DBOOST_ROOT,DHDF5_ROOT,DCMAKE_INSTALL_PREFIX},emphstyle=\color{blue},basicstyle=\ttfamily]
+$ cmake -DBOOST_ROOT=/path/to/boost \
+        -DHDF5_ROOT=/path/to/hdf5 \
+        -DCMAKE_INSTALL_PREFIX=/usr/local/ALPSCore \
+        /path/to/alpscore/sources
+$ make
+$ make install
+[code]>
+
+* There are some other CMake variables, less frequently used
+
+==== Exercise 1 ====[t]
+_blue_Exercise 1:_ Download and install this tutorial
+
+\ \\!Set the correct URL!
+<[code][language=sh,emph={ls,cd,mkdir,git},basicstyle=\ttfamily]
+$ cd ~
+$ mkdir alpstut
+$ cd alpstut
+$ git clone https://github.com/ALPSCore/tutorial2
+$ cd tutorial2
+$ tutorial=$PWD
+$ ls -l
+[code]> 
+You should see a list of files and no error messages.
+
+==== Exercise 2 ====[t]
+_blue_Exercise 2:_ Download/install prerequisites
+<[center]
+Ubuntu Linux
+<[code][language=sh,basicstyle=\ttfamily\small,emph={sudo,apt,get}]
+$ sudo apt-get install cmake
+$ sudo apt-get install libhdf5-dev
+$ sudo apt-get install libboost-all-dev
+$ sudo apt-get install mpi-default-dev
+[code]>
+[center]>
+
+<[center]
+Mac OS X, port system !FIXME!
+[center]>
+<[code][language=sh,basicstyle=\ttfamily\small,emph={sudo,port}]
+$ sudo port install gcc???
+$ sudo port install cmake
+$ sudo port install libhdf5-dev???
+$ sudo port install libboost-all-dev???
+$ sudo port install mpi-default-dev???
+[code]>
+
+==== Exercise 2 ====[t]
+_blue_Exercise 2 (cont):_ Download/install prerequisites
+\ \\[3\baselineskip]
+Test that you indeed have them:
+<[code][language=sh,basicstyle=\ttfamily\small,emph={cmake,gcc,h5cc,mpicxx}]
+$ cmake --version
+$ #(\textcolor{blue}{g++}) --version
+$ h5cc --version
+$ mpicxx --version
+[code]>
+
+
+==== Exercise 3 ====
+_blue_Exercise 3:_ Download and install ALPSCore.
+<[code][language=sh,basicstyle=\ttfamily\small,emph={git,export,cmake,make,cd,mkdir}]
+$ git https://github.com/ALPSCore/ALPSCore
+$ cd ALPSCore
+$ mkdir build
+$ cd build
+$ export ALPSCore_DIR=$PWD/install
+$ cmake -DCMAKE_INSTALL_PREFIX=$ALPSCore_DIR ..
+$ make
+$ make test
+$ make install
+[code]>
+*[1:] get ALPSCore from GitHub repository.
+*[2--4:] create a directory for the build
+*[5:] denote where it will be installed
+*[6:] generate the build
+*[7--9:] do the build, run the tests, and install
+
+
+== Using ALPSCore == 
+
+==== ====
+<[center]
+'''_blue_USING ALPSCore_'''
+[center]>
+
+
+==== Using ALPSCore in your program ====
+
+Note: @ALPSCore\_DIR@ is pointing to the installation directory. \\!FIXME: change, shorten URLs!
+
+* How @CMakeLists.txt@ should look to use @ALPSCore@: see \url{https://github.com/galexv/ALPSCore_tutorial/blob/master/step1.trivial/CMakeLists.txt}
+* Catch: compilers!
+* !In-source builds are messy!
+
+<[code][language=sh,emph={ALPSCore_DIR},emphstyle=\color{blue},basicstyle=\ttfamily]
+$ export CXX=$(which needed_cpp)
+$ export CC=$(which needed_cc)
+$ mkdir 000build 
+$ cd 000build 
+$ cmake ..
+[code]>
+
+==== Using ALPSCore in your program ====[t]
+_blue_A few possible catches:_
+
+* Catch: if compilers change: \\ @\$ rm -rf CMake*@
+* Catch: if CMake files change: \\ @\$ cmake .@ \\ in the build directory
+* Catch: after accidental in-source build,\\ remove the generated files.
+
+==== Exercise 4 ====
+_blue_Exercise 4:_ Build and run a dummy program\\ that uses ALPSCore and does nothing.
+
+!FIXME: shorten URLs!
+
+The code is at \texttt{\color{ballblue}\$tutorial/step1\_trivial}.
+
+CMake file online: \url{https://https://github.com/ALPSCore/tutorial2/blob/master/step1_trivial/CMakeLists.txt}\\
+Source file online: \url{https://https://github.com/ALPSCore/tutorial2/blob/master/step1_trivial/main.cpp}
+
++<2>{
+<[code][language=sh,emph={cd,mkdir},basicstyle=\ttfamily\small]
+$ cd $tutorial/step1_trivial
+$ mkdir 000build
+$ cd 000build
+$ cmake ..
+$ make
+$ ./alpsdemo
+[code]>
+}
+
+
+==== Parameters ====
+
+* @alps::params@ class is responsible for parameter parsing.
+* @boost::program\_options@ is the engine.
+* See Doxygen documentation (link from \url{http://alpscore.org/}) for detailed info.
+
+Features:
+
+* One can use input file, override with command line.
+* Input file may contain sections.
+* Parameters must be defined to make it known.
+* Unknown parameters in silently ignored.
+* Auto-generated help message.
+* Accessing an undefined parameter throws an exception.
+* You can assign to parameters, which makes them defined.
+* Potential information loss ==> exception.
+
+<[nowiki]
+%<[code][language=sh,emph={ALPSCore_DIR},emphstyle=\color{blue},basicstyle=\ttfamily]
+%$ ./demo --help
+%$ ./demo --name=value
+%$ ./demo --flag
+%[code]>
+[nowiki]>
+
+==== Exercise 5 ====
+_blue_Exercise 5:_ Build and run a program\\ that uses parameters.
+
+!FIXME: shorten URLs!
+
+The code is at \texttt{\color{ballblue}\$tutorial/step2\_params}.
+
+CMake file online: \url{https://https://github.com/ALPSCore/tutorial2/blob/master/step2_params/CMakeLists.txt}\\
+Source file online: \url{https://https://github.com/ALPSCore/tutorial2/blob/master/step2_params/main.cpp}
+
+* Play with the different values of parameters. 
+* Try to override them form the command line.
+* Change the program to make @--loud@ parameter an integer, \\ with @0@ meaning ``be quiet''.
++<2>{
+<[code][language=sh,emph={cd,mkdir},basicstyle=\ttfamily\small]
+$ cd $tutorial/step2_params
+$ mkdir 000build
+$ cd 000build
+$ cmake ..
+$ make
+$ ./alpsdemo
+$ ./alpsdemo --help
+$ ./alpsdemo params.ini
+$ ./alpsdemo params.ini --count=3
+....
+[code]>
+}
+
+==== Simple simulation class (doing nothing) ====
+
+* Simulation that just says ``I am running.''
+* Derived from @alps::mc\_base@ class.
+* Should define:
+** @void measure()@
+** @void update()@
+** @double fraction_completed()@
+
+==== Simple simulation class (doing nothing) ====
+
+*Exercise:
+** Build and run.
+** Change the name of the @update()@ method and see it does not compile any more.
+** Change @fraction_completed()@ to always return $<1$.
+
+!FIXME: more? !
+
+==== Compute $\pi$ by Markov chain MC ====
+The problem:
+<[columns]
+[[[0.85\textwidth]]]
+* Integral of objective function over an area.
+* Trivial Metropolis step to stay inside the area. 
+* Area: unit square; any step outside is rejected.
+* Objective function: \\ 1 if inside an inscribed circle, 0 otherwise.
+* Expected result: $\pi$ (if multiplied by 4).
+[[[0.15\textwidth]]]
+!FIXME: picture!
+[columns]>
+\ \\[0.3\baselineskip]
+We need to use:
+* '''_blue_Accumulators_''': named observable to gather statistics
+* '''_blue_Results_''': named as accumulators, allow arithmetic operations (with error propagation!)
+* Accumulators \& Results can hold a vector \\ (e.g., for vector-valued or parametrized objective function)
+
+==== Types of accumulators ====
+'''Types of accumulators''':
+# Mean only (cheapest, least useful): @_blue_MeanAccumulator_<double>@
+# No binning  (cheap, no autocorrelation info): @_blue_NoBinningAccumulator_<double>@
+# Full binning (most expensive, autocorrelation, error propagation): @_blue_FullBinningAccumulator_<double>@
+# Log binning (less memory demanding, no error propagation): @_blue_LogBinningAccumulator_<double>@
+
+_albatrosred_If a method is not available for the given accumulator type, it throws!_
+
+==== Exercise ?? ====
+_blue_Exercise ??:_ Compute $\pi$ by Markov chain MC.
+
+Note: the simulation code is split into 2 files.
+
+* Compile and run the program.
+* Run with various time limits.
+* Run with different step sizes, compare autocorrelation length.
+* Replace @FullBinningAccumulator@ to @NoBinningAccumulator@ and see the error-bars.
+
+==== Checkpointing the simulation ====
+
+* Checkpoint: save intermediate results, load to resume 
+* ALPSCore utilizes _blue_HDF5 format_
+** Cross-platform
+** Hierarchical structure: Groups ($\sim$directories), Data ($\sim$files)
+* ALPSCore can save/load:
+** Basic types (@int@, @double@ ''etc.'')
+** Vectors of basic types and of vectors of basic types ''etc.''
+** Accumulators and parameters
+** Any user-defined class 
+*** Via @save()@/@load()@ class members
+*** Via traits (harder to do --- more complex code)
+* Parameters can be constructed from HDF5 file too
+** Should not try to define them again in this case! \\ Use @my\_params.is\_restored()@.
+
+==== Running and resuming  ====
+
+The code is in \texttt{\color{ballblue}\$tutorial/step5\_pi\_checkpoint} .
+
+#[1.] Build as usual.
+#[2.] Run as usual. There is an error: find and fix it!
+#[2.] Run again (note more options available!)
+<[code][language=sh,basicstyle=\small\ttfamily]
+$ ./alpsdemo --help
+$ # Run for 5 sec
+$ ./alpsdemo --step 1 --timelimit 5
+[code]>
+-- -\baselineskip --
+#[3.] Note new files appear:
+* ``@_blue_*.out_@'' file contains simulation results
+* ``@_blue_*.clone.h5_@'' file contains checkpoint
+#[4.] Restore the checkpoint:
+<[code][language=sh,basicstyle=\small\ttfamily]
+$ # Run for 10 more sec:
+$ ./alpsdemo alpsdemo.clone.h5 --timelimit 10 
+[code]>
+-- -\baselineskip --
+* Note:
+** compulsory @_blue_--step_@ is read from the checkpoint
+** parameters can be overridden (like @_blue_--timelimit_@)
+
+==== How to use MPI? ====
+
+* Not many changes compared to the sequential version.
+*# Use @alps::mcmpiadapter<@''SequentialSimulationClass''@>@\\ as your simulation class.
+*# Initialize MPI environment
+*# Make sure that the parallel processes \\ do not conflict for input/output
+*# Use special constructor for parameters
+* Note that the completion is checked only at certain intervals (1 sec minimum)
+
+See the next slides for code changes!
+-- 3\baselineskip --
+==== MPI: Header files ====
+
+<[code][style=basic,language=C++,basicstyle=\small\ttfamily,basewidth=0.4em]
+#include <alps/mc/stop_callback.hpp>
+
+[<2>#include <alps/mc/mpiadapter.hpp>]
+
+class MySimulation : public alps::mcbase {
+// ... rest of your class ...
+};
+
+[<2>typedef alps::mcmpiadapter<MySimulation> MyMpiSimulation;]
+// ... rest of your program ...
+[code]>
+
+==== MPI: main() ====
+
+<[code][language=C++,basicstyle=\small\ttfamily,basewidth=0.4em]
+    alps::params p(argc, (const char**)argv);
+[<1>    MySimulation::define_parameters(p)][<2>    MyMpiSimulation::define_parameters(p)]
+            .description("Dummy Monte Carlo program")
+// etc...
+[<2>    // init MPI, obtain communicator]
+[<2>    alps::mpi::environment mpi_env(argc, argv);]
+[<2>    alps::mpi::communicator comm;]
+[<2>    // Parse the parameters on master...]
+[<2>    alps::params p;]
+[<2>    if (comm.rank()==0) { // on master process...]
+[<2>        alps::params p_master(argc, (const char**)argv);]
+[<2>        p=p_master;]
+[<2>    }]
+[<2>    broadcast(comm, p, 0); // ...broadcast parameters to all.]
+//....         
+[code]> 
+
+==== Exercise: MPI ====
+
+* Build the MPI-parallelized program.
+* Run with different number of processes. 
+* Observe checkpoint names.
+* Try to restore from checkpoints.
+
+==== Exercise: 2D Ising simulation ====
+
+* The same principle as any other MC simulation.
+* The program uses user-defined datatype, therefore needs loading/saving for it.
+* Try to change the code to parallelize it. 
+
+
+
+<[nowiki]
+% UNUSED
+%* At this point, it is a good idea to indicate a debug or a release build:
+%
+%<[code][language=sh,emph={CMAKE_BUILD_TYPE},emphstyle=\color{blue},basicstyle=\ttfamily]
+%$ cmake -DCMAKE_BUILD_TYPE=Debug ..
+% # or:
+%$ cmake -DCMAKE_BUILD_TYPE=Release ..
+%[code]>
+%
+%* @Make@ command options:
+%<[code][language=sh,basicstyle=\ttfamily]
+%$ make VERBOSE=1 # runs make printing all commands
+%$ make -j2 # run 2 Make processes, to compile faster
+%$ nice make -j4 # 4 low-priority processes
+%[code]>
+%
+%
+% ==== For the next time ====
+% * Use of vector accumulators to do something more complex, and accumulator operations
+% * Assigning to parameters, from parameters
+% * Proper installation
+% ** ``install`` target
+% ** Automatic setting of RPATH
+[nowiki]>
