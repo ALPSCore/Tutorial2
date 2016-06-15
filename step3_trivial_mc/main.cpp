@@ -32,4 +32,6 @@ int main(int argc, char** argv)
     std::cout << "Simulation ran for "
               << mysim.count()
               << " steps." << std::endl;
+
+    return 0;
 }

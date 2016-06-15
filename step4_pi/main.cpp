@@ -56,4 +56,6 @@ int main(int argc, char** argv)
     std::cout << "Autocorrelation length: "
               << pi_res.autocorrelation<double>()
               << std::endl;
+
+    return 0;
 }

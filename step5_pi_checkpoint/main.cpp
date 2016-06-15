@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 
     // Define the parameters
     mysim_type::define_parameters(p)
-      ; //.define<std::size_t>("timelimit", 5, "Time limit for the computation");
+        .define<std::size_t>("timelimit", 5, "Time limit for the computation");
         
     if (p.help_requested(std::cerr) || p.has_missing(std::cerr))
         return 1;
