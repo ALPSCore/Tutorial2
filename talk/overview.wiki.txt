@@ -12,6 +12,24 @@ definecolor={albatrosred}{HTML}{CA4436}
 newcommand={\code}[1]{\texttt{#1}}
 [autotemplate]>
 
+== Overview ==
+
+==== Overview ====
+
+This tutorial contains:
+* General overview of ALPSCore.
+* Hands-on exercises:
+** Installation of ALPSCore.
+** Use of ALPSCore to gradually build\\a feature-rich simulation code.
+
+* The hand-out materials contain (not necessarily in this order):
+*# These slides.
+*# Hands-on exercises and accompanying materials.
+*# Diff files highlighting changes\\as we put in new features.
+*# Diff files that define exercises solutions. 
+*# Source code of the tutorial programs.
+
+
 == Introduction == 
 
 ====  ====
@@ -147,6 +165,8 @@ $ make install
 ==== Exercise 1 ====[t]
 _blue_Exercise 1:_ Download and install this tutorial
 
+Open a terminal. Then, enter the following commands.
+
 <[code][language=sh,emph={ls,cd,mkdir,git},basicstyle=\ttfamily]
 $ cd ~
 $ mkdir alpstut
@@ -255,7 +275,7 @@ _blue_A few tips and possible catches:_
 * Catch: if CMake files change: \\ @\$ cmake .@ \\ in the build directory
 * Catch: if compilers change: \\ @\$ rm -rf CMake*@
 * Catch: after accidental in-source build,\\ remove the generated files.
-* Catch: if the library (@ALSPCore@ itself) has changed, regenerate: \\ @\$ cmake .@ \\ in the build directory
+* Catch: if @ALSPCore@ itself is updated, regenerate: \\ @\$ cmake .@ \\ in your build directory
 
 ==== Exercise 4 ====
 _blue_Exercise 4:_ Build and run a dummy program\\ that uses ALPSCore and does nothing.
@@ -304,7 +324,7 @@ Online: \url{https://git.io/alpstut2_s2}
 
 * Play with the different values of parameters. 
 * Try to override them from the command line.
-* Change the program to make @--loud@ parameter an integer, \\ with @0@ meaning ``be quiet''.
+* Change the program to make ``\code{--loud}" parameter an integer, \\ with @0@ meaning ``be quiet''.
 +<2>{
 <[code][language=sh,emph={cd,mkdir},basicstyle=\ttfamily\tiny]
 $ cd $tutorial/step2_params
@@ -376,7 +396,7 @@ We need to use:
 '''Types of accumulators''':
 # Mean only (cheapest, least useful): @_blue_MeanAccumulator_<double>@
 # No binning  (cheap, no autocorrelation info): @_blue_NoBinningAccumulator_<double>@
-# Full binning (most expensive, autocorrelation, error propagation): @_blue_FullBinningAccumulator_<double>@
+# \mbox{Full binning (most expensive, autocorrelation, error propagation):\hspace{-2em}}\\ @_blue_FullBinningAccumulator_<double>@
 # Log binning (less memory demanding, no error propagation): @_blue_LogBinningAccumulator_<double>@
 
 _albatrosred_If a method is not available for the given accumulator type, it throws!_
@@ -391,7 +411,7 @@ Online: \url{https://git.io/alpstut2_s4}
 * Build and run the program.
 * Run with various time limits.
 * Run with different step sizes, compare autocorrelation lengths.
-* Replace @FullBinningAccumulator@ to @NoBinningAccumulator@
+* \mbox{Replace @FullBinningAccumulator@ to @NoBinningAccumulator@\hspace{-2em}}
 * Run with very low or high @--step@ \\and see the underestimated error~bars.
 
 ==== Checkpointing the simulation ====
@@ -438,7 +458,7 @@ $ ./alpsdemo alpsdemo.clone.h5 --timelimit 10
 ** compulsory @_blue_--step_@ is read from the checkpoint
 ** parameters can be overridden (like @_blue_--timelimit_@)
 
-==== How to use MPI? ====
+==== How to use MPI? ====[t]
 
 * Not many changes compared to the sequential version.
 *# Use @alps::mcmpiadapter<@''SequentialSimulationClass''@>@\\ as your simulation class.
