@@ -21,14 +21,15 @@ This tutorial contains:
 * Hands-on exercises:
 ** Installation of ALPSCore.
 ** Use of ALPSCore to gradually build\\a feature-rich simulation code.
-
-* The hand-out materials contain (not necessarily in this order):
+* The hand-out materials contain (not necessarily in this order):\\[-0.3\baselineskip]
 *# These slides.
-*# Hands-on exercises and accompanying materials.
-*# Diff files highlighting changes\\as we put in new features.
+*# Hands-on exercises.
+*# Useful links.
+*# Diff files highlighting changes as we put in new features.
 *# Diff files that define exercises solutions. 
 *# Source code of the tutorial programs.
 
+The solutions to the exercises are available online: \url{https://git.io/alpstut2_solutions}
 
 == Introduction == 
 

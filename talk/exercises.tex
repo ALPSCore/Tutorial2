@@ -39,7 +39,7 @@
 
 \begin{document}
 
-\section{Exercise~1: Download and install\\ the tutorial}
+\section*{Exercise~1: Download and install the tutorial}
 
 Open a terminal. Then, enter the following commands.
 
@@ -55,22 +55,22 @@ $ ls -l
 
 You should see a list of files and no error messages.
 
-\section{Exercise~2: Download/install prerequisites}
-\subsection{Ubuntu Linux}
+\section*{Exercise~2: Download/install prerequisites}
+\subsection*{Ubuntu Linux}
 \begin{lstlisting}[emph={sudo,apt,get}]
 $ sudo apt-get install cmake
 $ sudo apt-get install libhdf5-dev
 $ sudo apt-get install libboost-all-dev
 $ sudo apt-get install mpi-default-dev
 \end{lstlisting}%$
-\subsection{Mac OS X}
+\subsection*{Mac OS X}
 \begin{lstlisting}[emph={port}]
 $ port install alpscore
 \end{lstlisting}%$
 This will install the latest ALPSCore release (we don't need it!)
 and prerequisites.
 
-\subsection{Check}
+\subsection*{Check}
 \begin{lstlisting}[language=sh,basicstyle=\ttfamily\small,emph={cmake,gcc,h5cc,mpicxx}]
 $ cmake --version
 $ #(\textcolor{blue}{g++}) --version
@@ -80,7 +80,7 @@ $ mpicxx --version
 
 There should be no error messages.
 
-\section{Exercise~3: Download and install ALPSCore.}
+\section*{Exercise~3: Download and install ALPSCore.}
 \begin{lstlisting}[emph={git,export,cmake,make,cd,mkdir}]
 $ git https://github.com/ALPSCore/ALPSCore
 $ cd ALPSCore
@@ -95,7 +95,7 @@ $ make install
 
 See also the list of CMake variables on page~\pageref{ref:cmakevars}.
 
-\section{Exercise 4: Build and run a dummy program\\ that uses ALPSCore and does nothing.}
+\section*{Exercise 4: Build and run a dummy program\\ that uses ALPSCore and does nothing.}
 
 The code is at \texttt{\color{ballblue}\$tutorial/step1\_trivial}.
 
@@ -114,7 +114,7 @@ $ make
 $ ./alpsdemo
 \end{lstlisting}%$
 
-\section{Exercise 5: Build and run a program\\ that uses parameters.}
+\section*{Exercise 5: Build and run a program\\ that uses parameters.}
 
 The code is at \texttt{\color{ballblue}\$tutorial/step2\_params}.
 
@@ -140,7 +140,7 @@ $ ./alpsdemo ../params.ini --count=3
 ....
 \end{lstlisting}
 
-\section{Exercise 6: Build and run a trivial MC program}
+\section*{Exercise 6: Build and run a trivial MC program}
 
 The code is at \texttt{\color{ballblue}\$tutorial/step3\_trivial\_mc}.
 
@@ -166,7 +166,7 @@ $ time -p ./alpsdemo --count=10000000 --timelimit=1
 \item Change the name of the \code{update()} method and see it does not compile any more.
 \end{enumerate}
 
-\section{Exercise 7: Compute $\pi$ by Markov chain MC}
+\section*{Exercise 7: Compute $\pi$ by Markov chain MC}
 
 The code is at \texttt{\color{ballblue}\$tutorial/step4\_pi}.
 
@@ -196,7 +196,7 @@ $ ./alpsdemo --step=10
 \end{enumerate}
 
 
-\section{Exercise 8: Running and resuming}
+\section*{Exercise 8: Running and resuming}
 
 The code is in \texttt{\color{ballblue}\$tutorial/step5\_pi\_checkpoint}.
 
@@ -227,7 +227,7 @@ Note:
 \end{enumerate}
 
 
-\section{Exercise 9: Parallel runs}
+\section*{Exercise 9: Parallel runs}
 
 The code is in \texttt{\color{ballblue}\$tutorial/step6\_pi\_mpi}.
 
@@ -248,7 +248,7 @@ $ mpiexec -n 2 ./alpsdemo alpsdemo.clone.h5
 \end{enumerate}
 
 \pagebreak
-\section{Exercise 10: Parallelize the 2D Ising code}
+\section*{Exercise 10: Parallelize the 2D Ising code}
 
 The code is in \texttt{\color{ballblue}\$tutorial/step7\_ising}.
 
@@ -265,7 +265,7 @@ Steps:
 
 
 \pagebreak
-\section{Appendix: Git cheat-sheet for today}
+\section*{Appendix: Git cheat-sheet for today}
 \begin{flushleft}
 \textbf{Clone (``download'') repository:}\\
 \lstinline[style=showspaces]|git clone |\emph{repo}%
@@ -283,7 +283,7 @@ Example: \\
 \lstinline[style=showspaces]|git reset --hard|
 \end{flushleft}
 
-\section{Appendix: Important links}
+\section*{Appendix: Important links}
 \begin{flushleft}
 ALPSCore site: \nolinkurl{http://alpscore.org}
 
@@ -295,10 +295,17 @@ Doxygen docs: \nolinkurl{https://alpscore.ci.cloudbees.com}
               \nolinkurl{/job/alpscore_fedora17_doc-only/ALPSCore_reference/}
 
 Tutorial repo: \nolinkurl{https://github.com/ALPSCore/Tutorial2}
+
+Exercise solutions:
+\begin{itemize}
+\item Online: \nolinkurl{https://git.io/alpstut2_solutions}
+\item Locally: \code{\color{ballblue}\$tutorial/X\_solutions}
+\end{itemize}
+
 \end{flushleft}
 
 \pagebreak
-\section{Appendix: ALPSCore CMake and environment variables}
+\section*{Appendix: ALPSCore CMake and environment variables}
 \label{ref:cmakevars}%
 CMake variables: set as \code{cmake
   -D\textit{variable}=\textit{value}}.
