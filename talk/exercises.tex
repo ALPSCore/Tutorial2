@@ -1,0 +1,239 @@
+\documentclass[12pt]{article}
+\sloppy
+\usepackage[letterpaper,margin=0.5in]{geometry}
+\usepackage{framed}
+\usepackage{ctable}
+\usepackage{tabularx}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\lstdefinestyle{basic}{
+    captionpos=t,%
+    basewidth=0.5em,%
+    basicstyle=\small\ttfamily,%
+    numberstyle=\tiny,%
+    numbers=left,%
+    stepnumber=1,%
+    frame=single,%
+    showspaces=false,%
+    showstringspaces=false,%
+    showtabs=false,%
+    %
+    keywordstyle=\color{blue},%
+    identifierstyle=,%
+    commentstyle=\color{gray},%
+    stringstyle=\color{magenta}%
+}
+\lstdefinestyle{showspaces}{style=basic,showspaces=true}
+\lstloadlanguages{sh,C++}
+\lstset{language=sh,escapeinside={\#(}{)},style=basic,basicstyle=\small\ttfamily,emphstyle={\color{blue}}}
+
+\definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
+\definecolor{ballblue}{rgb}{0.13, 0.67, 0.8}
+\definecolor{albatrosred}{HTML}{CA4436}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+\begin{document}
+
+\section{Exercise~1: Download and install\\ the tutorial}
+
+\begin{lstlisting}[language=sh,emph={ls,cd,mkdir,git}]
+$ cd ~
+$ mkdir alpstut
+$ cd alpstut
+$ git clone https://github.com/ALPSCore/Tutorial2
+$ cd Tutorial2
+$ tutorial=$PWD
+$ ls -l
+\end{lstlisting}
+
+You should see a list of files and no error messages.
+
+\section{Exercise~2: Download/install prerequisites}
+\subsection{Ubuntu Linux}
+\begin{lstlisting}[emph={sudo,apt,get}]
+$ sudo apt-get install cmake
+$ sudo apt-get install libhdf5-dev
+$ sudo apt-get install libboost-all-dev
+$ sudo apt-get install mpi-default-dev
+\end{lstlisting}%$
+\subsection{Mac OS X}
+\begin{lstlisting}[emph={port}]
+$ port install alpscore
+\end{lstlisting}%$
+This will install the latest ALPSCore release (we don't need it!)
+and prerequisites.
+
+\subsection{Check}
+\begin{lstlisting}[language=sh,basicstyle=\ttfamily\small,emph={cmake,gcc,h5cc,mpicxx}]
+$ cmake --version
+$ #(\textcolor{blue}{g++}) --version
+$ h5cc --version
+$ mpicxx --version
+\end{lstlisting}
+
+\section{Exercise~3: Download and install ALPSCore.}
+\begin{lstlisting}[emph={git,export,cmake,make,cd,mkdir}]
+$ git https://github.com/ALPSCore/ALPSCore
+$ cd ALPSCore
+$ mkdir build
+$ cd build
+$ export ALPSCore_DIR=$PWD/install
+$ cmake -DCMAKE_INSTALL_PREFIX=$ALPSCore_DIR ..
+$ make
+$ make test
+$ make install
+\end{lstlisting}%$
+
+\section{Exercise 4: Build and run a dummy program\\ that uses ALPSCore and does nothing.}
+
+The code is at \texttt{\color{ballblue}\$tutorial/step1\_trivial}.
+
+CMake file online: \nolinkurl{https://git.io/alpstut2_s1_cmake}
+
+Source file online: \nolinkurl{https://git.io/alpstut2_s1_main}
+
+\begin{lstlisting}[emph={cd,mkdir}]
+$ cd $tutorial/step1_trivial
+$ mkdir 000build
+$ cd 000build
+$ cmake ..
+$ make
+$ ./alpsdemo
+\end{lstlisting}%$
+
+\section{Exercise 5: Build and run a program\\ that uses parameters.}
+
+The code is at \texttt{\color{ballblue}\$tutorial/step2\_params}.
+
+Online: \nolinkurl{https://git.io/alpstut2_s2}
+
+\begin{enumerate}
+\item Play with the different values of parameters.
+\item Try to override them from the command line.
+\item Change the program to make \code{--loud} parameter an integer,\\
+      with value 0 meaning ``be quiet''.
+\end{enumerate}
+
+\begin{lstlisting}[emph={cd,mkdir}]
+$ cd $tutorial/step2_params
+$ mkdir 000build
+$ cd 000build
+$ cmake ..
+$ make
+$ ./alpsdemo
+$ ./alpsdemo --help
+$ ./alpsdemo ../params.ini
+$ ./alpsdemo ../params.ini --count=3
+....
+\end{lstlisting}
+
+\section{Exercise 6: Build and run a trivial MC program}
+
+The code is at \texttt{\color{ballblue}\$tutorial/step3\_trivial\_mc}.
+
+Online: \nolinkurl{https://git.io/alpstut2_s3}
+
+\begin{enumerate}
+\item Build and run.\\
+\code{\$ ./alpsdemo --help}
+\item Run with small counts:
+\begin{lstlisting}[]
+$ ./alpsdemo --count=2
+$ ./alpsdemo --count=2 --verbose
+\end{lstlisting}
+\item Run with large count and small timelimit; time the execution:\\
+\code{\$ time -p ''your\_command''}
+\begin{lstlisting}[emph={time}]
+$ time -p ./alpsdemo --count=10000000 --timelimit=1
+\end{lstlisting}%$
+\item Change \code{fraction\_completed()} so that \code{--count=0} would mean ``till timeout''.
+\item Change the name of the \code{update()} method and see it does not compile any more.
+\end{enumerate}
+
+\section{Git cheatsheet for today}
+\begin{flushleft}
+\textbf{Clone (``download'') repository:}\\
+\lstinline[style=showspaces]|git clone |\emph{repo}%
+\lstinline[style=showspaces]| |%
+\emph{local\_directory}\\
+or \\
+\lstinline[style=showspaces]|git clone |\emph{repo}\\
+Example: \\
+\lstinline[style=showspaces]|git clone https://github.com/ALPSCore/Tutorial2.git|
+
+\textbf{See the current changes:}\\
+\lstinline[style=showspaces]{git diff}
+
+\textbf{Revert changes (CAUTION --- no way back!):}\\
+\lstinline[style=showspaces]|git reset --hard|
+\end{flushleft}
+
+\section{Important links}
+\begin{flushleft}
+ALPSCore site: \nolinkurl{http://alpscore.org}
+
+ALPSCore repo: \nolinkurl{https://github.com/ALPSCore/ALPSCore}
+
+Doxygen docs: \nolinkurl{https://alpscore.ci.cloudbees.com}
+              \nolinkurl{/job/alpscore_fedora17_doc-only/ALPSCore_reference/}
+
+Tutorial repo: \nolinkurl{https://github.com/ALPSCore/Tutorial2}
+\end{flushleft}
+
+\pagebreak
+\section{ALPSCore CMake and environment variables}
+CMake variables: set as \code{cmake
+  -D\textit{variable}=\textit{value}}.
+
+{\small
+\begin{tabularx}{\textwidth}{lcX}
+  \textbf{Variable} & \textbf{Default value} & {\hfil\textbf{Comment}\hfil}\\
+  \toprule
+  \code{CMAKE\_CXX\_COMPILER} & (system default) & {Path to C++ compiler executable.
+    Can be set only once.} \\\midrule
+  \code{CMAKE\_INSTALL\_PREFIX} & \code{/usr/local} & ALPSCore target install directory. \\\midrule
+  \code{CMAKE\_BUILD\_TYPE} &  &  {Specifies build type;
+    set to \code{Release} to maximize performance.} \\\midrule
+  \code{BOOST\_ROOT} &   & {Boost install directory.
+    Set if CMake fails to find Boost.} \\\midrule
+  \code{Boost\_NO\_SYSTEM\_PATHS} & false & {Disable search in default system directories.
+    Set if the wrong version of Boost is found.} \\\midrule
+  \code{Boost\_NO\_BOOST\_CMAKE} & false & {Disable search for Boost CMake file.
+    Set if the wrong version of Boost is found.} \\\midrule
+  \code{Documentation} & ON & Build ALPSCore developer's documentation. \\\midrule
+  \code{ENABLE\_MPI} & ON & Enable MPI build. \\\midrule
+  \code{Testing} & ON & Build unit tests (recommended). \\\midrule
+  \code{ALPS\_BUILD\_SHARED} & ON & {Build ALPSCore as shared libraries.
+    Mutually exclusive with \code{ALPS\_BUILD\_STATIC=ON}.} \\\midrule
+  \code{ALPS\_BUILD\_STATIC} & OFF & {Build ALPSCore as static libraries.
+    Mutually exclusive with \code{ALPS\_BUILD\_SHARED=ON}.} \\
+  \bottomrule
+\end{tabularx}
+}
+
+\newpage
+The environment variables are set via \code{export
+  \textit{variable}=\textit{value}} before running CMake. The relevant
+variables are:
+
+{\small
+  \begin{tabularx}{1\textwidth}{l@{\hspace{5em}}X}
+    \textbf{Variable} & {\hfil\textbf{Comment}\hfil}\\
+    \toprule
+    \code{CXX} &  Path to C++ compiler executable.
+                 Can be set only once. \\\midrule
+    \code{BOOST\_ROOT} &  Boost install directory.
+                        Set if CMake fails to find Boost. \\\midrule
+    \code{HDF5\_ROOT}  &  HDF5 install directory.
+                        Set if CMake fails to find HDF5.\\
+
+    \bottomrule
+  \end{tabularx}
+}
+\end{document}
+

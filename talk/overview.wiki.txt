@@ -146,13 +146,12 @@ $ make install
 ==== Exercise 1 ====[t]
 _blue_Exercise 1:_ Download and install this tutorial
 
-\ \\!Set the correct URL!
 <[code][language=sh,emph={ls,cd,mkdir,git},basicstyle=\ttfamily]
 $ cd ~
 $ mkdir alpstut
 $ cd alpstut
-$ git clone https://github.com/ALPSCore/tutorial2
-$ cd tutorial2
+$ git clone https://github.com/ALPSCore/Tutorial2
+$ cd Tutorial2
 $ tutorial=$PWD
 $ ls -l
 [code]> 
@@ -169,17 +168,27 @@ $ sudo apt-get install libboost-all-dev
 $ sudo apt-get install mpi-default-dev
 [code]>
 [center]>
-
 <[center]
-Mac OS X, port system !FIXME!
+Mac OS X, port system
 [center]>
-<[code][language=sh,basicstyle=\ttfamily\small,emph={sudo,port}]
-$ sudo port install gcc???
-$ sudo port install cmake
-$ sudo port install libhdf5-dev???
-$ sudo port install libboost-all-dev???
-$ sudo port install mpi-default-dev???
+<[code][language=sh,basicstyle=\ttfamily\small,emph={port}]
+$ port install alpscore
 [code]>
+This will install the latest ALPSCore release (we don't need it!)
+and prerequisites.
+
+<[nowiki]
+% <[center]
+% Mac OS X, port system !FIXME!
+% [center]>
+% <[code][language=sh,basicstyle=\ttfamily\small,emph={sudo,port}]
+% $ sudo port install gcc???
+% $ sudo port install cmake
+% $ sudo port install libhdf5-dev???
+% $ sudo port install libboost-all-dev???
+% $ sudo port install mpi-default-dev???
+% [code]>
+[nowiki]>
 
 ==== Exercise 2 ====[t]
 _blue_Exercise 2 (cont):_ Download/install prerequisites
@@ -250,12 +259,11 @@ _blue_A few tips and possible catches:_
 ==== Exercise 4 ====
 _blue_Exercise 4:_ Build and run a dummy program\\ that uses ALPSCore and does nothing.
 
-!FIXME: shorten URLs!
-
 The code is at \texttt{\color{ballblue}\$tutorial/step1\_trivial}.
 
-CMake file online: \url{https://https://github.com/ALPSCore/tutorial2/blob/master/step1_trivial/CMakeLists.txt}\\
-Source file online: \url{https://https://github.com/ALPSCore/tutorial2/blob/master/step1_trivial/main.cpp}
+CMake file online: \url{https://git.io/alpstut2_s1_cmake}
+
+Source file online: \url{https://git.io/alpstut2_s1_main}
 
 +<2>{
 <[code][language=sh,emph={cd,mkdir},basicstyle=\ttfamily\small]
@@ -286,25 +294,12 @@ Features:
 * You can assign to parameters, which makes them defined.
 * Potential information loss ==> exception.
 
-<[nowiki]
-%<[code][language=sh,emph={ALPSCore_DIR},emphstyle=\color{blue},basicstyle=\ttfamily]
-%$ ./alpsdemo --help
-%$ ./alpsdemo --name=value
-%$ ./alpsdemo --loud --name=value
-%$ ./alpsdemo --loud --name=value
-%[code]>
-[nowiki]>
-
 ==== Exercise 5 ====
 _blue_Exercise 5:_ Build and run a program\\ that uses parameters.
 
-!FIXME: shorten URLs!
-
 The code is at \texttt{\color{ballblue}\$tutorial/step2\_params}.
 
-CMake file online: \url{https://https://github.com/ALPSCore/tutorial2/blob/master/step2_params/CMakeLists.txt}\\
-Source file online: \url{https://https://github.com/ALPSCore/tutorial2/blob/master/step2_params/main.cpp}\\
-Parameters file online: \url{https://https://github.com/ALPSCore/tutorial2/blob/master/step2_params/params.ini}
+Online: \url{https://git.io/alpstut2_s2}
 
 * Play with the different values of parameters. 
 * Try to override them from the command line.
@@ -338,9 +333,13 @@ $ ./alpsdemo ../params.ini --count=3
 ** parameters object
 ** a PRNG seed offset (will be needed for parallel simulations)
 
-==== Simple simulation class (doing nothing) ====
+==== Exercise 6 ====
+_blue_Exercise 6:_ Build and run a trivial MC program.
 
-Exercise:
+The code is at \texttt{\color{ballblue}\$tutorial/step3\_trivial\_mc}.
+
+Online: \url{https://git.io/alpstut2_s3}
+
 * Build and run.
 * Run with small counts.
 * Run with large count and small timelimit; time the execution:\\@\$ time -p ''your\_command''@
