@@ -8,7 +8,7 @@ MySimulation::MySimulation(const parameters_type& params, std::size_t seed_offse
         verbose_=params["verbose"];
     }
 
-void MySimulation::update() {
+void MySimulation::renamed_update() {
     double r=random();
     if (verbose_) {
         std::cout << "Update at step " << istep_ << ", random=" << r << std::endl;
@@ -23,7 +23,6 @@ void MySimulation::measure() {
 }
 
 double MySimulation::fraction_completed() const {
-    if (maxcount_==0) return 0;
     double frac=double(istep_)/maxcount_;
     return frac;
 }

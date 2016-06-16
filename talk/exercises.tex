@@ -45,7 +45,7 @@
 $ cd ~
 $ mkdir alpstut
 $ cd alpstut
-$ git clone https://github.com/ALPSCore/Tutorial2
+$ git clone https://github.com/ALPSCore/Tutorial2.git
 $ cd Tutorial2
 $ tutorial=$PWD
 $ ls -l
@@ -76,6 +76,8 @@ $ h5cc --version
 $ mpicxx --version
 \end{lstlisting}
 
+There should be no error messages.
+
 \section{Exercise~3: Download and install ALPSCore.}
 \begin{lstlisting}[emph={git,export,cmake,make,cd,mkdir}]
 $ git https://github.com/ALPSCore/ALPSCore
@@ -89,6 +91,8 @@ $ make test
 $ make install
 \end{lstlisting}%$
 
+See also the list of CMake variables on page~\pageref{ref:cmakevars}.
+
 \section{Exercise 4: Build and run a dummy program\\ that uses ALPSCore and does nothing.}
 
 The code is at \texttt{\color{ballblue}\$tutorial/step1\_trivial}.
@@ -96,6 +100,8 @@ The code is at \texttt{\color{ballblue}\$tutorial/step1\_trivial}.
 CMake file online: \nolinkurl{https://git.io/alpstut2_s1_cmake}
 
 Source file online: \nolinkurl{https://git.io/alpstut2_s1_main}
+
+The directory online: \nolinkurl{https://git.io/alpstut2_s1}
 
 \begin{lstlisting}[emph={cd,mkdir}]
 $ cd $tutorial/step1_trivial
@@ -138,6 +144,8 @@ The code is at \texttt{\color{ballblue}\$tutorial/step3\_trivial\_mc}.
 
 Online: \nolinkurl{https://git.io/alpstut2_s3}
 
+Note: the simulation code is split into 2 files.
+
 \begin{enumerate}
 \item Build and run.\\
 \code{\$ ./alpsdemo --help}
@@ -151,11 +159,111 @@ $ ./alpsdemo --count=2 --verbose
 \begin{lstlisting}[emph={time}]
 $ time -p ./alpsdemo --count=10000000 --timelimit=1
 \end{lstlisting}%$
+\item Set large time limit and interrupt the program (via \code{Ctrl-C}).
 \item Change \code{fraction\_completed()} so that \code{--count=0} would mean ``till timeout''.
 \item Change the name of the \code{update()} method and see it does not compile any more.
 \end{enumerate}
 
-\section{Git cheatsheet for today}
+\section{Exercise 7: Compute $\pi$ by Markov chain MC}
+
+The code is at \texttt{\color{ballblue}\$tutorial/step4\_pi}.
+
+Online: \nolinkurl{https://git.io/alpstut2_s4}
+
+\begin{enumerate}
+\item Build and run the program.
+\item Run with various time limits:
+  \begin{lstlisting}
+$ ./alpsdemo --timelimit=5
+$ ./alpsdemo --timelimit=10
+  \end{lstlisting}
+\item Run with different step sizes, compare autocorrelation lengths.
+  \begin{lstlisting}
+$ ./alpsdemo --step=1 
+$ ./alpsdemo --step=10
+$ ./alpsdemo --step=0.1
+  \end{lstlisting} %$
+\item Replace \code{FullBinningAccumulator} to 
+\code{NoBinningAccumulator}.
+\item Run with low or high step length and see the underestimated error~bars.
+  \begin{lstlisting}
+$ ./alpsdemo --step=1
+$ ./alpsdemo --step=0.01
+$ ./alpsdemo --step=10
+  \end{lstlisting} %$
+\end{enumerate}
+
+
+\section{Exercise 8: Running and resuming}
+
+The code is in \texttt{\color{ballblue}\$tutorial/step5\_pi\_checkpoint}.
+
+Online: \nolinkurl{https://git.io/alpstut2_s5}
+
+\begin{enumerate}
+\item Build the code.
+\item Run the code. There is an error: find and fix it!
+\item Build and run the corrected code (note more options available!).
+  \begin{lstlisting}
+$ ./alpsdemo --help
+$ ./alpsdemo --step 1 --timelimit 5
+  \end{lstlisting}
+\item Note new files appear:
+  \begin{itemize}
+  \item  ``\code{*.out}'' file contains simulation results.
+  \item  ``\code{*.clone.h5}'' file contains checkpoint.
+  \end{itemize}
+\item Restore the checkpoint and run for 10 more seconds:
+  \begin{lstlisting}
+$ ./alpsdemo alpsdemo.clone.h5 --timelimit 10 
+\end{lstlisting} %$
+Note:
+  \begin{itemize}
+  \item compulsory \code{--step} is read from the checkpoint.
+  \item parameters can be overridden (like \code{--timelimit}).
+  \end{itemize}
+\end{enumerate}
+
+
+\section{Exercise 9: Parallel runs}
+
+The code is in \texttt{\color{ballblue}\$tutorial/step6\_pi\_mpi}.
+
+Online: \nolinkurl{https://git.io/alpstut2_s6}
+
+\begin{enumerate}
+\item Build the MPI-parallelized program.
+\item Do timed runs with different number of processes:
+  \begin{lstlisting}[emph={mpiexec}]
+$ time -p mpiexec -n 1 ./alpsdemo --step=1 --timelimit=10
+$ time -p mpiexec -n 2 ./alpsdemo --step=1 --timelimit=10
+  \end{lstlisting} %$
+\item Observe checkpoint names.
+\item Try to restore from checkpoints, see how statistics builds up.
+  \begin{lstlisting}[emph={mpiexec}]
+$ mpiexec -n 2 ./alpsdemo alpsdemo.clone.h5
+\end{lstlisting} %$
+\end{enumerate}
+
+\pagebreak
+\section{Exercise 10: Parallelize the 2D Ising code}
+
+The code is in \texttt{\color{ballblue}\$tutorial/step7\_ising}.
+
+Online: \nolinkurl{https://git.io/alpstut2_s7}
+
+Steps: 
+\begin{enumerate}
+\item Initialize MPI environment.
+\item Use \code{alps::mcmpiadapter} template.
+\item Use the parallel parameter constructor.
+\item Make sure each rank has its own checkpoint file.
+\item Make sure only the master process outputs the results.
+\end{enumerate}
+
+
+\pagebreak
+\section{Appendix: Git cheat-sheet for today}
 \begin{flushleft}
 \textbf{Clone (``download'') repository:}\\
 \lstinline[style=showspaces]|git clone |\emph{repo}%
@@ -173,9 +281,11 @@ Example: \\
 \lstinline[style=showspaces]|git reset --hard|
 \end{flushleft}
 
-\section{Important links}
+\section{Appendix: Important links}
 \begin{flushleft}
 ALPSCore site: \nolinkurl{http://alpscore.org}
+
+ALPSCore wiki: \nolinkurl{https://github.com/ALPSCore/ALPSCore/wiki}
 
 ALPSCore repo: \nolinkurl{https://github.com/ALPSCore/ALPSCore}
 
@@ -186,7 +296,8 @@ Tutorial repo: \nolinkurl{https://github.com/ALPSCore/Tutorial2}
 \end{flushleft}
 
 \pagebreak
-\section{ALPSCore CMake and environment variables}
+\section{Appendix: ALPSCore CMake and environment variables}
+\label{ref:cmakevars}%
 CMake variables: set as \code{cmake
   -D\textit{variable}=\textit{value}}.
 
@@ -216,9 +327,10 @@ CMake variables: set as \code{cmake
 \end{tabularx}
 }
 
-\newpage
-The environment variables are set via \code{export
-  \textit{variable}=\textit{value}} before running CMake. The relevant
+\vspace{2\baselineskip}
+The environment variables are set via:\\
+\code{\$ export \textit{variable}=\textit{value}}\\
+before running CMake. The relevant
 variables are:
 
 {\small
