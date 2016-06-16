@@ -1,0 +1,26 @@
+diff -u -b -r ../../step3_trivial_mc/simulation.cpp ./simulation.cpp
+--- ../../step3_trivial_mc/simulation.cpp	2016-06-15 12:00:13.967290368 -0400
++++ ./simulation.cpp	2016-06-16 01:27:43.511195497 -0400
+@@ -8,7 +8,7 @@
+         verbose_=params["verbose"];
+     }
+ 
+-void MySimulation::update() {
++void MySimulation::renamed_update() {
+     double r=random();
+     if (verbose_) {
+         std::cout << "Update at step " << istep_ << ", random=" << r << std::endl;
+
+
+diff -u -b -r ../../step3_trivial_mc/simulation.hpp ./simulation.hpp
+--- ../../step3_trivial_mc/simulation.hpp	2016-06-15 12:07:16.203270687 -0400
++++ ./simulation.hpp	2016-06-16 01:27:27.295196253 -0400
+@@ -11,7 +11,7 @@
+   public:
+     MySimulation(const parameters_type& params, std::size_t seed_offset=0);
+ 
+-    void update();
++    void renamed_update();
+     void measure();
+     double fraction_completed() const;
+

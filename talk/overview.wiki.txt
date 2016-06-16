@@ -18,7 +18,7 @@ newcommand={\code}[1]{\texttt{#1}}
 
 This tutorial contains:
 * General overview of ALPSCore.
-* Hands-on exercises:
+* Exercises:
 ** Installation of ALPSCore.
 ** Use of ALPSCore to gradually build\\a feature-rich simulation code.
 * The hand-out materials contain (not necessarily in this order):\\[-0.3\baselineskip]
@@ -27,7 +27,6 @@ This tutorial contains:
 *# Useful links.
 *# Diff files highlighting changes as we put in new features.
 *# Diff files that define exercises solutions. 
-*# Source code of the tutorial programs.
 
 The solutions to the exercises are available online: \url{https://git.io/alpstut2_solutions}
 

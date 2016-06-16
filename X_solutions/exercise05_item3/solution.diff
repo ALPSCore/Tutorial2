@@ -1,0 +1,20 @@
+--- ../../step2_params/main.cpp	2016-06-15 10:29:08.171545142 -0400
++++ main.cpp	2016-06-16 01:03:45.431262529 -0400
+@@ -9,7 +9,7 @@
+         .description("Demo ALPSCore program")
+         .define<std::string>("name","A name to greet")
+         .define<int>("count", 1, "How many times to greet")
+-        .define("loud", "Should we be \"loud\"?");
++        .define<int>("loud", 0, "Should we be \"loud\"?");
+ 
+     if (p.help_requested(std::cerr))
+         return 1;
+@@ -17,7 +17,7 @@
+     if (p.has_missing(std::cerr))
+         return 2;
+     
+-    std::string ending=p["loud"]?"!!!":".";
++    std::string ending=(p["loud"]!=0)?"!!!":".";
+     for (int i=0; i<p["count"]; ++i) {
+         std::cout << "Hello, " << p["name"].as<std::string>() << ending << "\n";
+     }

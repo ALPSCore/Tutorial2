@@ -1,0 +1,26 @@
+
+diff -u -b -r ../../step4_pi/simulation.hpp ./simulation.hpp
+--- ../../step4_pi/simulation.hpp	2016-06-15 12:27:23.359214419 -0400
++++ ./simulation.hpp	2016-06-16 09:57:58.491810950 -0400
+@@ -18,7 +18,7 @@
+     static double objective_function(double x, double y);
+ 
+     // Accumulator type to collect observables.
+-    typedef alps::accumulators::FullBinningAccumulator<double> my_accumulator_type;
++    typedef alps::accumulators::NoBinningAccumulator<double> my_accumulator_type;
+     
+     MySimulation(const parameters_type& params, std::size_t seed_offset=0);
+ 
+diff -u -b -r ../../step4_pi/main.cpp ./main.cpp
+--- ../../step4_pi/main.cpp	2016-06-15 14:36:39.478852887 -0400
++++ ./main.cpp	2016-06-16 09:58:39.771809026 -0400
+@@ -53,9 +53,6 @@
+               << " ... "
+               << pi_res.mean<double>()+pi_res.error<double>()
+               << std::endl;
+-    std::cout << "Autocorrelation length: "
+-              << pi_res.autocorrelation<double>()
+-              << std::endl;
+ 
+     return 0;
+ }

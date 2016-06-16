@@ -1,0 +1,10 @@
+--- ../../step3_trivial_mc/simulation.cpp	2016-06-15 12:00:13.967290368 -0400
++++ simulation.cpp	2016-06-16 01:24:45.455203796 -0400
+@@ -23,6 +23,7 @@
+ }
+ 
+ double MySimulation::fraction_completed() const {
++    if (maxcount_==0) return 0;
+     double frac=double(istep_)/maxcount_;
+     return frac;
+ }

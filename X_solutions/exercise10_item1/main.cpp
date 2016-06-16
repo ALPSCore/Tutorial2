@@ -15,23 +15,6 @@
 #include <alps/mc/stop_callback.hpp>
 #include <alps/mc/mpiadapter.hpp>
 
-/**
- * This example shows how to setup a simple Monte Carlo simulation and retrieve some results.
- * <p>
- * The actual work is done inside the `ising_sim` class (see file "ising.cpp" and "ising.hpp"
- * in this directory). The simulation sets up a 2-dimensional Ising model and runs a Monte Carlo
- * simulation for the requested number of steps and at the requested temperature. This example
- * also shows how to read simulation parameters, save/restore the state of the simulation,
- * and parallelize the simulation via MPI.
- * <p>
- * Run the example with `--help` argument to obtain the list of supported parameters.
- * <ul>
- *   <li>./ising_mc_--help</li>
- * </ul>
- * 
- * @param argc the number of arguments
- * @param argv the argument array
- * @return the exit code */
 int main(int argc, char* argv[])
 {
     // Define the type for the simulation
