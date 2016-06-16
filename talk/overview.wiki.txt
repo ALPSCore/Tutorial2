@@ -21,10 +21,9 @@ This tutorial contains:
 * Exercises:
 ** Installation of ALPSCore.
 ** Use of ALPSCore to gradually build\\a feature-rich simulation code.
-* The hand-out materials contain (not necessarily in this order):\\[-0.3\baselineskip]
-*# These slides.
-*# Hands-on exercises.
+* The hand-out materials contain:\\[-0.3\baselineskip]
 *# Useful links.
+*# Hands-on exercises.
 *# Diff files highlighting changes as we put in new features.
 *# Diff files that define exercises solutions. 
 
