@@ -2,6 +2,7 @@
 beamertemplatenavigationsymbolsempty={}
 title={ALPSCore tutorial}
 author={Alexander Gaenko}
+date={Simons~Foundation Summer~School~Workshop\\\today}
 usetheme={Frankfurt}
 usecolortheme={whale}
 lstloadlanguages={sh,C++}
