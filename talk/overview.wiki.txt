@@ -181,20 +181,23 @@ You should see a list of files and no error messages.
 ==== Exercise 2 ====[t]
 _blue_Exercise 2:_ Download/install prerequisites
 <[center]
-Ubuntu Linux
+Ubuntu Linux:
 <[code][language=sh,basicstyle=\ttfamily\small,emph={sudo,apt,get}]
 $ sudo apt-get install cmake
 $ sudo apt-get install libhdf5-dev
 $ sudo apt-get install libboost-all-dev
 $ sudo apt-get install mpi-default-dev
 [code]>
-[center]>
-<[center]
-Mac OS X, port system
-[center]>
+Mac OS X, port system:
 <[code][language=sh,basicstyle=\ttfamily\small,emph={port}]
 $ port install alpscore
 [code]>
+Mac OS X, HomeBrew system:
+<[code][language=sh,basicstyle=\ttfamily\small,emph={brew}]
+$ brew tap science/alpscore
+$ brew install alpscore
+[code]>
+[center]>
 This will install the latest ALPSCore release (we don't need it!)
 and prerequisites.
 
