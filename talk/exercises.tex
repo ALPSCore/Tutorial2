@@ -88,12 +88,21 @@ $ sudo apt-get install libhdf5-dev
 $ sudo apt-get install libboost-all-dev
 $ sudo apt-get install mpi-default-dev
 \end{lstlisting}%$
-\subsection*{Mac OS X}
-\begin{lstlisting}[emph={port}]
-$ port install alpscore
+\subsection*{Mac OS X, port system}
+\begin{lstlisting}[emph={port,sudo}]
+$ sudo port install alpscore
+$ sudo port uninstall alpscore
 \end{lstlisting}%$
-This will install the latest ALPSCore release (we don't need it!)
-and prerequisites.
+\subsection*{Mac OS X, HomeBrew system}
+\begin{lstlisting}[emph={brew}]
+$ brew update
+$ brew tap homebrew/science
+$ brew install alpscore
+$ brew uninstall alpscore
+\end{lstlisting}%$
+
+This will install the latest ALPSCore release (we don't need it, so we
+uninstall it) and prerequisites.
 
 \subsection*{Check}
 \begin{lstlisting}[language=sh,basicstyle=\ttfamily\small,emph={cmake,gcc,h5cc,mpicxx}]
@@ -107,7 +116,7 @@ There should be no error messages.
 
 \section*{Exercise~3: Download and install ALPSCore.}
 \begin{lstlisting}[emph={git,export,cmake,make,cd,mkdir}]
-$ git https://github.com/ALPSCore/ALPSCore
+$ git clone https://github.com/ALPSCore/ALPSCore
 $ cd ALPSCore
 $ mkdir build
 $ cd build
@@ -253,7 +262,7 @@ Note:
 
 
 \section*{Exercise 9: Parallel runs}
-
+\enlargethispage{1\baselineskip}
 The code is in \texttt{\color{ballblue}\$tutorial/step6\_pi\_mpi}.
 
 Online: \nolinkurl{https://git.io/alpstut2_s6}

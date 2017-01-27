@@ -190,16 +190,34 @@ $ sudo apt-get install mpi-default-dev
 [code]>
 Mac OS X, port system:
 <[code][language=sh,basicstyle=\ttfamily\small,emph={port}]
-$ port install alpscore
+$ sudo port install alpscore
 [code]>
 Mac OS X, HomeBrew system:
 <[code][language=sh,basicstyle=\ttfamily\small,emph={brew}]
-$ brew tap science/alpscore
+$ brew update
+$ brew tap homebrew/science
 $ brew install alpscore
 [code]>
 [center]>
 This will install the latest ALPSCore release (we don't need it!)
 and prerequisites.
+
+==== More about Homebrew ====
+<[code][language=sh,basicstyle=\ttfamily\small,emph={brew}]
+$ xcode-select --install
+$ /usr/bin/ruby -e \
+  "$(curl -fsSL \
+     https://raw.githubusercontent.com/\
+     Homebrew/install/master/install)"
+$ brew update
+$ brew tap homebrew/science
+$ brew install alpscore
+$ brew uninstall alpscore
+[code]>
+This code downloads HomeBrew (_ballblue_lines 1--6_), declares that we are interested in
+"science" section (_ballblue_line 7_), installs @ALPSCore@ with
+prerequisites 
+(_ballblue_line 8_), then uninstalls @ALPSCore@ (but not the prerequisites) (_ballblue_line 9_).
 
 <[nowiki]
 % <[center]
@@ -229,7 +247,7 @@ $ mpicxx --version
 ==== Exercise 3 ====
 _blue_Exercise 3:_ Download and install ALPSCore.
 <[code][language=sh,basicstyle=\ttfamily\small,emph={git,export,cmake,make,cd,mkdir}]
-$ git https://github.com/ALPSCore/ALPSCore
+$ git clone https://github.com/ALPSCore/ALPSCore
 $ cd ALPSCore
 $ mkdir build
 $ cd build
