@@ -3,6 +3,10 @@
  * All rights reserved. Use is subject to license terms. See LICENSE.TXT
  * For use in publications, see ACKNOWLEDGE.TXT
  */
+#pragma once
+
+#include <vector>
+#include <alps/hdf5.hpp>
 
 // Storage class for 2D spin array.
 // Implemented as vector of vectors for simplicity.
@@ -21,6 +25,7 @@ class storage_type {
     int& operator()(int i, int j) {
         return data_[i][j];
     }
+
     // Custom save
     void save(alps::hdf5::archive& ar) const {
         ar["2Darray"] << data_;

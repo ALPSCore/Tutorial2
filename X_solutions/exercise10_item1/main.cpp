@@ -5,10 +5,7 @@
  */
 
 #include "ising.hpp"
-
 #include <iostream>
-#include <fstream>
-
 #include <alps/accumulators.hpp>
 #include <alps/mc/api.hpp>
 #include <alps/mc/mcbase.hpp>
@@ -26,15 +23,13 @@ int main(int argc, char* argv[])
     const int rank=comm.rank();
     const bool is_master=(rank==0);
 
-    
-
     try {
-    
         // Creates the parameters for the simulation
         // If an hdf5 file is supplied, reads the parameters there
-        // This constructor broadcasts to all processes
+
         if (is_master) std::cout << "Initializing parameters..." << std::endl;
 
+        // This constructor broadcasts to all processes
         alps::params parameters(argc, argv, comm);
         my_sim_type::define_parameters(parameters);
 
@@ -69,21 +64,25 @@ int main(int argc, char* argv[])
 
         // Print results
         if (is_master) {
+            using alps::accumulators::result_wrapper;
             std::cout << "All measured results:" << std::endl;
             std::cout << results << std::endl;
             
-            std::cout << "Simulation ran for " << results["Energy"].count() << " steps." << std::endl;
+            std::cout << "Simulation ran for "
+                      << results["Energy"].count()
+                      << " steps." << std::endl;
 
             // Assign individual results to variables.
-            const alps::accumulators::result_wrapper& mag4=results["Magnetization^4"];
-            const alps::accumulators::result_wrapper& mag2=results["Magnetization^2"];
+            const result_wrapper& mag4=results["Magnetization^4"];
+            const result_wrapper& mag2=results["Magnetization^2"];
 
             // Derived result:
-            const alps::accumulators::result_wrapper& binder_cumulant=1-mag4/(3*mag2*mag2);
+            const result_wrapper& binder_cumulant=1-mag4/(3*mag2*mag2);
             std::cout << "Binder cumulant: " << binder_cumulant
-                      << " Relative error: " << fabs(binder_cumulant.error<double>()/binder_cumulant.mean<double>())
+                      << " Relative error: "
+                      << fabs(binder_cumulant.error<double>()/
+                              binder_cumulant.mean<double>())
                       << std::endl;
-
             
             // Saving to the output file
             std::string output_file = parameters["outputfile"];
@@ -91,7 +90,6 @@ int main(int argc, char* argv[])
             ar["/parameters"] << parameters;
             ar["/simulation/results"] << results;
         }
-
         return 0;
     } catch (const std::runtime_error& exc) {
         std::cout << "Exception caught: " << exc.what() << std::endl;

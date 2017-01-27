@@ -7,19 +7,12 @@
 #pragma once
 
 #include <alps/mc/mcbase.hpp>
-#include <alps/hdf5/archive.hpp>
-#include <alps/hdf5/vector.hpp>
-#include <boost/function.hpp>
-#include <boost/filesystem/path.hpp>
-#include <vector>
-#include <string>
-#include <iostream>
-
 #include "storage_type.hpp"
 
+
 // Simulation class for 2D Ising model (square lattice).
-// We extend alps::mcbase, which is the base class of all Monte Carlo simulations.
-// We define our own state, calculation functions (update/measure) and
+// Extends alps::mcbase, the base class of all Monte Carlo simulations.
+// Defines its state, calculation functions (update/measure) and
 // serialization functions (save/load)
 class ising_sim : public alps::mcbase {
     // The internal state of our simulation
@@ -30,7 +23,11 @@ class ising_sim : public alps::mcbase {
     int total_sweeps;
     double beta;
     storage_type spins;
-        
+    double current_energy;
+    double current_magnetization;
+
+
+
   public:
     ising_sim(parameters_type const & parms, std::size_t seed_offset = 0);
 
@@ -45,3 +42,4 @@ class ising_sim : public alps::mcbase {
     virtual void save(alps::hdf5::archive & ar) const;
     virtual void load(alps::hdf5::archive & ar);
 };
+
