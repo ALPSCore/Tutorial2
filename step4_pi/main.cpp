@@ -8,7 +8,7 @@ int main(int argc, char** argv)
     typedef MySimulation mysim_type;
     
     // Parse the parameters
-    alps::params p(argc, (const char**)argv);
+    alps::params p(argc, argv);
 
     // Define the parameters
     mysim_type::define_parameters(p)

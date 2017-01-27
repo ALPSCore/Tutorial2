@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
         // If an hdf5 file is supplied, reads the parameters there
         std::cout << "Initializing parameters..." << std::endl;
 
-        alps::params parameters(argc, (const char**)argv);
+        alps::params parameters(argc, argv);
         my_sim_type::define_parameters(parameters);
 
         if (parameters.help_requested(std::cout) ||
@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
         my_sim_type sim(parameters); 
 
         // If needed, restore the last checkpoint
-        std::string checkpoint_file = parameters["checkpoint"].as<std::string>();
+        std::string checkpoint_file = parameters["checkpoint"];
         
         if (parameters.is_restored()) {
             std::cout << "Restoring checkpoint from " << checkpoint_file

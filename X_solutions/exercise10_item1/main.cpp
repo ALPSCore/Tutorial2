@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
         // This constructor broadcasts to all processes
         if (is_master) std::cout << "Initializing parameters..." << std::endl;
 
-        alps::params parameters(argc, (const char**)argv, comm);
+        alps::params parameters(argc, argv, comm);
         my_sim_type::define_parameters(parameters);
 
         if (parameters.help_requested(std::cout) ||
@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
         my_sim_type sim(parameters, comm); 
 
         // If needed, restore the last checkpoint
-        std::string checkpoint_file = parameters["checkpoint"].as<std::string>();
+        std::string checkpoint_file = parameters["checkpoint"];
         if (!is_master) checkpoint_file+="."+boost::lexical_cast<std::string>(rank);
         
         if (parameters.is_restored()) {

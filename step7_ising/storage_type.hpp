@@ -11,11 +11,8 @@ class storage_type {
     std::vector< std::vector<int> > data_;
   public:
     // Constructor
-    storage_type(int nrows, int ncols): data_(nrows) {
-        for (int i=0; i<nrows; ++i) {
-            data_[i].resize(ncols);
-        }
-    }
+    storage_type(int nrows, int ncols): data_(nrows, std::vector<int>(ncols, 0)) {}
+
     // Read access
     int operator()(int i, int j) const {
         return data_[i][j];

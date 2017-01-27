@@ -17,7 +17,7 @@ int main(int argc, char** argv)
     const bool is_master=(0==rank);
     
     // Parse the parameters
-    alps::params p(argc, (const char**)argv, comm);
+    alps::params p(argc, argv, comm);
 
     // Define the parameters
     mysim_type::define_parameters(p);

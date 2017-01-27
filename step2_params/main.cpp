@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv)
 {
-    alps::params p(argc, (const char**)argv);
+    alps::params p(argc, argv);
     p
         .description("Demo ALPSCore program")
         .define<std::string>("name","A name to greet")
