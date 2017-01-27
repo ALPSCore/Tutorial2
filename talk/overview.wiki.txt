@@ -171,7 +171,7 @@ Open a terminal. Then, enter the following commands.
 $ cd ~
 $ mkdir alpstut
 $ cd alpstut
-$ git clone https://github.com/ALPSCore/Tutorial2.git
+$ git clone https://github.com/ALPSCore/Tutorial2.g#()it
 $ cd Tutorial2
 $ tutorial=$PWD
 $ ls -l
@@ -189,7 +189,7 @@ $ sudo apt-get install libboost-all-dev
 $ sudo apt-get install mpi-default-dev
 [code]>
 Mac OS X, port system:
-<[code][language=sh,basicstyle=\ttfamily\small,emph={port}]
+<[code][language=sh,basicstyle=\ttfamily\small,emph={port,sudo}]
 $ sudo port install alpscore
 [code]>
 Mac OS X, HomeBrew system:
@@ -243,6 +243,11 @@ $ h5cc --version
 $ mpicxx --version
 [code]>
 
+_blue_Cross-check_:
+* CMake 2.8.12+
+* HDF5 1.8+
+* MPI available
+
 
 ==== Exercise 3 ====
 _blue_Exercise 3:_ Download and install ALPSCore.
@@ -254,8 +259,8 @@ $ cd build
 $ export ALPSCore_DIR=$PWD/install
 $ cmake -DCMAKE_INSTALL_PREFIX=$ALPSCore_DIR ..
 $ make
-$ make test
-$ make install
+$ make tes#()t
+$ make instal#()l
 [code]>
 *[1:] get ALPSCore from GitHub repository.
 *[2--4:] create a directory for the build
@@ -280,7 +285,7 @@ Note: @ALPSCore\_DIR@ is pointing to the installation directory.
 * Catch: compilers!
 * !In-source builds are messy!
 
-<[code][language=sh,emph={ALPSCore_DIR},emphstyle=\color{blue},basicstyle=\ttfamily]
+<[code][language=sh,emph={which,mkdir,cmake},emphstyle=\color{blue},basicstyle=\ttfamily]
 $ export CXX=$(which #(\textit{needed\_cpp}))
 $ export CC=$(which #(\textit{needed\_cc}))
 $ mkdir 000build 
@@ -308,7 +313,7 @@ CMake file online: \url{https://git.io/alpstut2_s1_cmake}
 Source file online: \url{https://git.io/alpstut2_s1_main}
 
 +<2>{
-<[code][language=sh,emph={cd,mkdir},basicstyle=\ttfamily\small]
+<[code][language=sh,emph={cd,mkdir,make,cmake},basicstyle=\ttfamily\small]
 $ cd $tutorial/step1_trivial
 $ mkdir 000build
 $ cd 000build
@@ -337,7 +342,7 @@ Features:
 * Potential information loss ==> exception.
 
 ==== Exercise 5 ====
-_blue_Exercise 5:_ Build and run a program\\ that uses parameters.
+_blue_Exercise 5:_ Build and run a program that uses parameters.
 
 The code is at \texttt{\color{ballblue}\$tutorial/step2\_params}.
 
@@ -347,7 +352,7 @@ Online: \url{https://git.io/alpstut2_s2}
 * Try to override them from the command line.
 * Change the program to make ``\code{--loud}" parameter an integer, \\ with @0@ meaning ``be quiet''.
 +<2>{
-<[code][language=sh,emph={cd,mkdir},basicstyle=\ttfamily\tiny]
+<[code][language=sh,emph={cd,mkdir,make,cmake},basicstyle=\ttfamily\small]
 $ cd $tutorial/step2_params
 $ mkdir 000build
 $ cd 000build
@@ -452,6 +457,7 @@ Online: \url{https://git.io/alpstut2_s4}
 ** Should not try to define them again in this case! \\ Use @par.is\_restored()@.
 
 ==== Exercise 8 ====
+-- -0.5\baselineskip --
 _blue_Exercise 8:_ Running and resuming.
 
 The code is in \texttt{\color{ballblue}\$tutorial/step5\_pi\_checkpoint}.
@@ -460,21 +466,21 @@ Online: \url{https://git.io/alpstut2_s5}
 
 * Build and run the code. There is an error: find and fix it!
 * Build, run the corrected code (note more options available!).
-<[code][language=sh,basicstyle=\tiny\ttfamily]
+<[code][language=sh,basicstyle=\small\ttfamily]
 $ ./alpsdemo --help
 $ # Run for 5 sec
 $ ./alpsdemo --step 1 --timelimit 5
 [code]>
--- -\baselineskip --
+-- -0.85\baselineskip --
 * Note new files appear:
 ** ``@_blue_*.out_@'' file contains simulation results
 ** ``@_blue_*.clone.h5_@'' file contains checkpoint
 * Restore the checkpoint:
-<[code][language=sh,basicstyle=\tiny\ttfamily]
+<[code][language=sh,basicstyle=\small\ttfamily]
 $ # Run for 10 more sec:
 $ ./alpsdemo alpsdemo.clone.h5 --timelimit 10 
 [code]>
--- -\baselineskip --
+-- -0.85\baselineskip --
 * Note:
 ** compulsory @_blue_--step_@ is read from the checkpoint
 ** parameters can be overridden (like @_blue_--timelimit_@)
