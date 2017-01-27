@@ -334,8 +334,8 @@ Features:
 
 * One can use input file, override with command line.
 * Input file may contain sections: @[title]@
-* Parameters must be defined to make it known.
-* Unknown parameters in silently ignored.
+* A parameter must be defined to make it known.
+* Unknown parameters are silently ignored.
 * Auto-generated help message.
 * Accessing an undefined parameter throws an exception.
 * You can assign to parameters, which makes them defined.
