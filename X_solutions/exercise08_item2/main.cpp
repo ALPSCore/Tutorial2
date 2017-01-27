@@ -8,7 +8,7 @@ int main(int argc, char** argv)
     typedef MySimulation mysim_type;
     
     // Parse the parameters
-    alps::params p(argc, (const char**)argv);
+    alps::params p(argc, argv);
 
     // Define the parameters
     mysim_type::define_parameters(p);
@@ -22,7 +22,7 @@ int main(int argc, char** argv)
     mysim_type mysim(p);
 
     // If needed, restore the last checkpoint
-    std::string checkpoint_file = p["checkpoint"].as<std::string>();
+    std::string checkpoint_file = p["checkpoint"];
         
     if (p.is_restored()) {
         std::cout << "Restoring checkpoint from " << checkpoint_file

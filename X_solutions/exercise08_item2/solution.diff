@@ -1,8 +1,7 @@
-diff -u -b -r ../../step5_pi_checkpoint/main.cpp ./main.cpp
---- ../../step5_pi_checkpoint/main.cpp	2016-06-15 14:12:52.874919385 -0400
-+++ ./main.cpp	2016-06-16 10:39:58.127693504 -0400
+--- ../../step5_pi_checkpoint/main.cpp	2017-01-27 01:37:14.603122647 -0500
++++ ./main.cpp	2017-01-27 01:53:15.111079851 -0500
 @@ -11,8 +11,7 @@
-     alps::params p(argc, (const char**)argv);
+     alps::params p(argc, argv);
  
      // Define the parameters
 -    mysim_type::define_parameters(p)
@@ -11,4 +10,3 @@ diff -u -b -r ../../step5_pi_checkpoint/main.cpp ./main.cpp
          
      if (p.help_requested(std::cerr) || p.has_missing(std::cerr))
          return 1;
-

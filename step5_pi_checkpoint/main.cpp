@@ -23,7 +23,7 @@ int main(int argc, char** argv)
     mysim_type mysim(p);
 
     // If needed, restore the last checkpoint
-    std::string checkpoint_file = p["checkpoint"].as<std::string>();
+    std::string checkpoint_file = p["checkpoint"];
         
     if (p.is_restored()) {
         std::cout << "Restoring checkpoint from " << checkpoint_file

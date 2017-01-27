@@ -32,7 +32,7 @@ int main(int argc, char** argv)
     mysim_type mysim(p,comm);
 
     // If needed, restore the last checkpoint
-    std::string checkpoint_file = p["checkpoint"].as<std::string>();
+    std::string checkpoint_file = p["checkpoint"];
     if (!is_master) checkpoint_file += "."+boost::lexical_cast<std::string>(rank);
         
     if (p.is_restored()) {
