@@ -1,0 +1,67 @@
+--- step1_pi/main.cpp	2017-02-24 09:16:26.629402926 -0500
++++ step2_parallel_pi/main.cpp	2017-02-24 09:16:26.629402926 -0500
+@@ -1,5 +1,6 @@
+ #include <iostream>
+ #include <alps/mc/stop_callback.hpp>
++#include <alps/mc/mpiadapter.hpp>
+ #include "simulation.hpp"
+ 
+ int main(int argc, char** argv)
+@@ -8,10 +9,18 @@
+     namespace aa = alps::accumulators;
+   
+     // Define shorthand for our simulation class:
+-    typedef MySimulation mysim_type;
++    typedef alps::mcmpiadapter<MySimulation> mysim_type;
++    
++    // init MPI, obtain communicator
++    alps::mpi::environment mpi_env(argc, argv);
++    alps::mpi::communicator comm;
++    
++    // remember the rank
++    const int rank=comm.rank();
++    const bool is_master=(0==rank);
+     
+     // Parse the parameters
+-    alps::params p(argc, argv);
++    alps::params p(argc, argv, comm);
+ 
+     // Define the simulation parameters...
+     mysim_type::define_parameters(p)
+@@ -23,22 +32,27 @@
+         return 1;
+ 
+     std::cout << "Creating simulation"
++              << " on rank " << rank
+               << std::endl;
+ 
+-    mysim_type mysim(p);
++    mysim_type mysim(p, comm);
+ 
+     std::cout << "Starting simulation"
++              << " on rank " << rank
+               << std::endl;
+ 
+     mysim.run(alps::stop_callback(std::size_t(p["timelimit"])));
+ 
+     std::cout << "Simulation finished"
++              << " on rank " << rank
+               << std::endl
+               << "Collecting results..."
+               << std::endl;
+     
+     aa::result_set results=mysim.collect_results();
+ 
++    // Do printing only on master:
++    if (is_master) {
+     // Print all results:
+     std::cout << "All results:\n" << results << std::endl;
+ 
+@@ -61,6 +75,7 @@
+               << " ... "
+               << pi_result.mean<double>()+pi_result.error<double>()
+               << std::endl;
++    }
+ 
+     return 0;
+ }
