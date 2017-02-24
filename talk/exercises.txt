@@ -1,0 +1,28 @@
+<[autotemplate]
+beamertemplatenavigationsymbolsempty={}
+title={ALPSCore tutorial}
+author={Alexander Gaenko}
+date={Simons~Foundation Summer~School~Workshop\\\today}
+usetheme={Frankfurt}
+usecolortheme={whale}
+lstloadlanguages={sh,C++}
+lstset={escapeinside={\#(}{)},style=basic,basicstyle=\small,basewidth=0.5em,emphstyle={\color{blue}}}
+definecolor={babyblue}{rgb}{0.54, 0.81, 0.94}
+definecolor={ballblue}{rgb}{0.13, 0.67, 0.8}
+definecolor={albatrosred}{HTML}{CA4436}
+newcommand={\code}[1]{\texttt{#1}}
+[autotemplate]>
+
+==== Exercise 1 ====
+
+# Build and compile the trivial MC program.
+# Run it without arguments.
+# Run it with @--help@.
+# Run (timed) with different number of trials;\\ \code{time -p ./alpsdemo --trials=100}
+# Run (timed) with different time limits;\\ \code{time -p ./alpsdemo --trials=99999999 --timelimit=10}
+# Start a very long run, press @Ctrl-C@; observe the graceful stop.
+# Use a parameter file to run a simulation;\\ \code{./alpsdemo demo.ini}
+# Override some parameters from the file;\\ \code{./alpsdemo demo.ini --trials=9999}
+# Change the code to accept number of trials to be @0@ to mean "run till timeout".
+# Change the code to use @MeanAccumulator@ instead of @NoBinningAccumulator@;\\ run it; fix the error.
+

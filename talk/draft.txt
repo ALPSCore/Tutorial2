@@ -1,0 +1,217 @@
+What is ALPSCore?
+
+* A software library to simplify writing physics simulation codes
+* Currently, primarily for Monte Carlo methods
+* Has support for Green's Functions
+* Support for lattices coming soon.
+
+Picture: ALPSCore structure
+
+========
+
+Picture: typical MC simulation.
+
+ALPSCore provides infrastructure for most of this.
+
+====
+ 
+Brief history:
+
+* ALPSCore is the "core ALPS library"
+* ALPS is "Algorithms and Libraries for Physics Simulations"
+* ALPSCore promises to be more compact, with faster development cycle
+  and more extensive documentation.
+* Focuses on the most often used components.
+
+====
+
+What are we going to do?
+
+* Assume that ALPSCore is installed
+* We make a very simple MOnte Carlo demo
+* We parallelize the demo
+* We will implement a 2D Ising model simulation code.
+
+======
+
+Preface to exercise 1.
+
+Task: compute \pi, by Monte Carlo.
+
+Picture: inscribed circle, with hits and values of h()
+
+Formula:
+
+S_c / S_sq = \pi / 4
+
+Let's define "hit function" h(r) = { 1 if r \in Circle, 0 otherwise }
+
+S_c / S_sq = N_c / N = (1/N) \sum_{i=1}^{N} h(r_i)
+
+That is, the value is the mean of the "hit function". 
+
+It is not hard to write the program to compute the mean; but what
+about error bars? How many of you remember those formulas? ;)
+
+===========
+
+Exercise 1: Implementation specifics.
+
+(Make "file pictures")
+
+# @CMakeLists.txt@ : file specifying the structure of your
+  application.
+# @simulation.hpp@ describes the simulation class (the model)
+# @simulation.cpp@ implements the model
+# @main.cpp@ sets up and runs the simulation.
+# Simulation model must specify how to:
+  * Construct the model
+  * @update()@ Perform the MC trial
+  * @measure()@ Measure the quantities
+  * @fraction_completed()@ Are we done yet?
+
+=====================
+ 
+Exercise 1: Implementation specifics 2.
+
+# Parameters: to allow user to specify input data.
+  Each parameter has:
+  * Name (e.g., @"trials"@)
+  * Type (e.g., @int@)
+  * Description (e.g. @"Number of trials"@)
+  * Optionally, a default value.
+# @define_parameters()@ is responsible for defining
+  simulation-specific params
+
+===========
+
+==== Exercise 1: Finding \pi by trivial MC ====
+
+# Build and compile the trivial MC program.
+  $ mkdir 000build && cd 000build
+  $ cmake ..
+  $ make
+# Run it without arguments: @ ./alpsdemo @
+# Run it with @--help@.
+# Run (timed) with different number of trials;\\ \code{time -p ./alpsdemo --trials=100}
+# Run (timed) with different time limits;\\ \code{time -p ./alpsdemo --trials=99999999 --timelimit=10}
+# Start a very long run, press @Ctrl-C@; observe the graceful stop.
+# Use a parameter file to run a simulation;\\ \code{./alpsdemo demo.ini}
+# Override some parameters from the file;\\ \code{./alpsdemo demo.ini --trials=9999}
+# Change the code to accept number of trials to be @0@ to mean "run till timeout".
+# Change the code to use @MeanAccumulator@ instead of @NoBinningAccumulator@;\\ run it; fix the error.
+
+
+===========
+
+==== Exercise 1: Take-home message ====
+
+# Linking ALPSCore to your application is very simple.
+# Most of the framework is ready-made; you only plug-in "science".
+# You get parameters, scheduling and error bars for free.
+
+====================
+
+Exercise 2: Preface
+
+It is immediately clear that every point we throw is independent on
+another, and we can throw them in parallel. 
+
+Picture:
+
+Parallel streams (ranks); common block "are we done yet?" ; common block
+"collect results".
+
+==========
+
+Exercise 2: Finding \pi in parallel
+
+# Examine the difference (the diff file). Note the differences are
+  only in $main.cpp$, and they are minimal:
+## Use @alps::mcmpiadapter@ class;
+## Initialize MPI;
+## Some operations are now parallel-aware;
+## Only master rank should print.
+# Compile the code
+# Run with @--help@; note that there are extra parameters (with
+  reasonable defaults)
+# Run (with timing) using 1 or 2 parallel processes with a large number of steps:
+time -p mpiexec -n 1 ./alpsdemo --trials=9999999
+time -p mpiexec -n 2 ./alpsdemo --trials=9999999
+  Note that wall-clock time is almost the same (about 5 sec), but the user time and
+  number of steps are doubled.
+
+=====================
+
+Exercise 2: Take-home message
+
+# Once you implemented a serial Monte Carlo, it is trivial to
+  parallelize.
+# The requested number of MC steps is distributed among parallel
+  processes.
+# The processes communicate occasionally to check if the time and the
+  requested number of steps are done.
+
+==========================
+
+Exercise 3: Preface
+
+"Physics" problem: 2D Ising model.
+
+Picture:
+
+3x3 box of red-blue spins, repeated in 2 dims
+
+Energy equation:
+
+E = - (1/N) \sum_{(i,j)} s_i s_j
+
+Magnetization:
+
+M = (1/N) \sum_i s_i
+
+Binder cumulant:
+
+U = 1 - <M^4> / (3 * <M^2> ^2)
+
+==========================
+
+Exercise 3: Approach
+
+MC step: 
+1) flip a random spin (code!)
+2) update energy (code!)
+3) update magnetization (code!)
+
+MC measurements: energy, mag, mag^2, mag^4 (code!)
+
+
+==========================
+
+Exercise 3: Accumulators
+
+* MC measurements are strongly correlated.
+* Naive approach results in too narrow error bars.
+* Use @LogBinningAccumulator@ for the correlated data.
+* Use @FullBinningAccumulator@ if you need to do arithmetic.
+
+Exercise 3: 
+
+# Build the code
+# Run the code wiht @--help@
+# Run the code with the given @ising.ini@ and various temperatures and
+  cell sizes.
+# Run the code with the given @ising.ini@ and various accumulators;
+  note the differing error bars:
+  * for energy
+  * for Binder Cumulant
+  You will see that:
+  * For measured quantities (e.g., energy) NoBinning is too
+   optimistic, LogBinning and FullBinning give similar results
+  * For the Binder Cumulant, only FullBinning give reasonable results.
+# Make the code parallel.
+  * Use mcmpiadapter class template;
+  * Initialize MPI environment;
+  * Pass the communicator to parameters and simulation constructors;
+  * Ensure only the master process prints.
+
