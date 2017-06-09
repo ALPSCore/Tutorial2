@@ -1,0 +1,67 @@
+--- ../main.cpp	2017-02-24 09:16:26.629402926 -0500
++++ main_mpi.cpp	2017-06-08 22:27:59.470923682 -0400
+@@ -1,8 +1,10 @@
+ #include "ising.hpp"
+ #include <iostream>
+ #include <alps/accumulators.hpp>
++#include <alps/mc/api.hpp>
+ #include <alps/mc/mcbase.hpp>
+ #include <alps/mc/stop_callback.hpp>
++#include <alps/mc/mpiadapter.hpp>
+ 
+ int main(int argc, char* argv[])
+ {
+@@ -10,13 +12,19 @@
+     namespace aa=alps::accumulators;
+ 
+     // Shortcut for the type for the simulation
+-    typedef ising_sim my_sim_type;
++    typedef alps::mcmpiadapter<ising_sim> my_sim_type;
++
++    // Initialize the MPI environment, and obtain the WORLD communicator
++    alps::mpi::environment env(argc, argv);
++    alps::mpi::communicator comm;
++    const int rank=comm.rank();
++    const bool is_master=(rank==0);
+ 
+     // Enclose everything in try...catch... block,
+     // to gracefully report any errors.
+     try {
+         // Initialize parameters:
+-        alps::params parameters(argc, argv);
++        alps::params parameters(argc, argv, comm);
+         
+         // Define simulation-specific parameters...
+         my_sim_type::define_parameters(parameters)
+@@ -29,12 +37,12 @@
+             return 1;
+         }
+     
+-        std::cout << "Creating simulation..."
++        std::cout << "Creating simulation on rank " << rank
+                   << std::endl;
+-        my_sim_type sim(parameters); 
++        my_sim_type sim(parameters, comm); 
+ 
+         // Run the simulation
+-        std::cout << "Running simulation..."
++        std::cout << "Running simulation on rank " << rank
+                   << std::endl;
+         sim.run(alps::stop_callback(size_t(parameters["timelimit"])));
+ 
+@@ -43,6 +51,7 @@
+                   << std::endl;
+         aa::result_set results = sim.collect_results();
+ 
++        if (is_master) {
+         // Print results
+         std::cout << "All measured results:"
+                   << std::endl;
+@@ -66,6 +75,7 @@
+                   << std::endl;
+ 
+         
++        }
+         return 0;
+ 
+     } catch (const std::runtime_error& exc) {
