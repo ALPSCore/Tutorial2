@@ -1,0 +1,4 @@
+This is how to make "0 trials" to mean "run till timeout".
+
+The idea is to always return "faction completed" = 0 if the user
+requested 0 trials.
