@@ -31,7 +31,10 @@ int main(int argc, char* argv[])
     
         std::cout << "Creating simulation..."
                   << std::endl;
-        my_sim_type sim(parameters); 
+        my_sim_type sim(parameters);
+
+        // Print the simulation values, for our convenience:
+        sim.print_params(std::cout);
 
         // Run the simulation
         std::cout << "Running simulation..."

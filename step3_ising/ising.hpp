@@ -12,9 +12,9 @@ class ising_sim : public alps::mcbase {
     // The internal state of our simulation
   private:
     int length_; // the same in both dimensions
-    int sweeps_;
-    int thermalization_sweeps_;
-    int total_sweeps_;
+    long sweeps_;
+    long thermalization_sweeps_;
+    long total_sweeps_;
     double beta_;
     storage_type spins_;
     double current_energy_;
@@ -34,5 +34,7 @@ class ising_sim : public alps::mcbase {
 
     /// How far we are proceeded
     double fraction_completed() const;
-};
 
+    /// Print the simulation parameters (convenience method)
+    std::ostream& print_params(std::ostream& strm) const;
+};

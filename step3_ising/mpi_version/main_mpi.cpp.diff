@@ -1,5 +1,5 @@
---- ../main.cpp	2017-06-17 01:00:34.783929678 -0400
-+++ main_mpi.cpp	2017-06-17 01:00:59.395851358 -0400
+--- ../main.cpp	2017-06-17 07:50:47.062852548 -0400
++++ main_mpi.cpp	2017-06-17 09:21:42.705391421 -0400
 @@ -1,8 +1,10 @@
  #include "ising.hpp"
  #include <iostream>
@@ -33,15 +33,19 @@
          
          // Define simulation-specific parameters...
          my_sim_type::define_parameters(parameters)
-@@ -29,12 +37,12 @@
+@@ -29,15 +37,15 @@
              return 1;
          }
      
 -        std::cout << "Creating simulation..."
 +        std::cout << "Creating simulation on rank " << rank
                    << std::endl;
--        my_sim_type sim(parameters); 
+-        my_sim_type sim(parameters);
 +        my_sim_type sim(parameters, comm); 
+ 
+         // Print the simulation values, for our convenience:
+-        sim.print_params(std::cout);
++        if (is_master) sim.print_params(std::cout);
  
          // Run the simulation
 -        std::cout << "Running simulation..."
@@ -49,7 +53,7 @@
                    << std::endl;
          sim.run(alps::stop_callback(size_t(parameters["timelimit"])));
  
-@@ -43,6 +51,7 @@
+@@ -46,6 +54,7 @@
                    << std::endl;
          aa::result_set results = sim.collect_results();
  
@@ -57,7 +61,7 @@
          // Print results
          std::cout << "All measured results:"
                    << std::endl;
-@@ -62,6 +71,7 @@
+@@ -65,6 +74,7 @@
                    << std::endl;
  
          

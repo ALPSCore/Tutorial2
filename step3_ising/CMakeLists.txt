@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(ising2_mc CXX)
 
+#For efficiency, compile with optimization by default
+if (NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "RelWithDebInfo")
+endif()
+
 add_executable(${PROJECT_NAME} main.cpp ising.cpp)
 
 # Request the ALPSCore package (with all components)

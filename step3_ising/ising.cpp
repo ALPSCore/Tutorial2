@@ -7,8 +7,8 @@ alps::params& ising_sim::define_parameters(alps::params& parameters) {
     // followed by Ising specific parameters
         .description("2D ising simulation")
         .define<int>("length", "size of the periodic box")
-        .define<int>("sweeps", 1000000, "maximum number of sweeps")
-        .define<int>("thermalization", 10000, "number of sweeps for thermalization")
+        .define<long>("sweeps", 50000000, "maximum number of sweeps")
+        .define<long>("thermalization", 2000000, "number of sweeps for thermalization")
         .define<double>("temp", "temperature of the system")
         .define<std::string>("acc", "accumulators to use: nobin|logbin|fullbin");
     return parameters;
@@ -22,14 +22,13 @@ ising_sim::ising_sim(parameters_type const & prm, std::size_t seed_offset)
     : alps::mcbase(prm, seed_offset)
     , length_(parameters["length"])
     , sweeps_(0)
-    , thermalization_sweeps_(int(prm["thermalization"]))
+    , thermalization_sweeps_(prm["thermalization"])
     , total_sweeps_(prm["sweeps"])
     , beta_(1. / prm["temp"].as<double>())
     , spins_(length_,length_)
     , current_energy_(0)
     , current_magnetization_(0)
 {
-
     // Add the accumulators for the values being measured;
     // the type of accumulators depends on the user choice in parameters.
     if (prm["acc"] == "fullbin") {
@@ -89,32 +88,35 @@ ising_sim::ising_sim(parameters_type const & prm, std::size_t seed_offset)
 void ising_sim::update() {
     using std::exp;
 
-    // Choose a spin to flip:
-    int i = int(length_ * random());
-    int j = int(length_ * random());
+    // Perform N^2 flips per update
+    for (int iflip=0; iflip<length_*length_; ++iflip) {
+        // Choose a spin to flip:
+        int i = int(length_ * random());
+        int j = int(length_ * random());
 
-    // Find neighbors indices, with wrap over box boundaries:
-    int i_nxt = (i+1) % length_;
-    int i_prv = (i-1+length_) % length_;
-    int j_nxt = (j+1) % length_;
-    int j_prv = (j-1+length_) % length_;
+        // Find neighbors indices, with wrap over box boundaries:
+        int i_nxt = (i+1) % length_;
+        int i_prv = (i-1+length_) % length_;
+        int j_nxt = (j+1) % length_;
+        int j_prv = (j-1+length_) % length_;
 
-    // Energy difference:
-    double delta=2.*spins_(i,j)*
-                    (spins_(i_nxt,j)+
-                     spins_(i_prv,j)+
-                     spins_(i,j_nxt)+
-                     spins_(i,j_prv));
+        // Energy difference:
+        double delta=2.*spins_(i,j)*
+            (spins_(i_nxt,j)+
+             spins_(i_prv,j)+
+             spins_(i,j_nxt)+
+             spins_(i,j_prv));
     
-    // Step acceptance:
-    if (delta<=0. || random() < exp(-beta_*delta)) {
-        // update energy:
-        current_energy_ += delta;
-        // update magnetization:
-        current_magnetization_ -= 2*spins_(i,j);
-        // flip the spin
-        spins_(i,j) = -spins_(i,j);
-    }        
+        // Step acceptance:
+        if (delta<=0. || random() < exp(-beta_*delta)) {
+            // update energy:
+            current_energy_ += delta;
+            // update magnetization:
+            current_magnetization_ -= 2*spins_(i,j);
+            // flip the spin
+            spins_(i,j) = -spins_(i,j);
+        }
+    }
 }
 
 // Collects the measurements at each MC step.
@@ -144,3 +146,14 @@ double ising_sim::fraction_completed() const {
     return f;
 }
 
+// Prints the simulation parameters for our convenience
+std::ostream& ising_sim::print_params(std::ostream& strm) const
+{
+    strm
+        << "Periodic box size: " << length_ << "x" << length_ << std::endl
+        << "Beta: " << beta_ << " (T=" << 1./beta_ << ")" << std::endl
+        << "Runs max. for " << total_sweeps_ << " sweeps" << std::endl
+        << "with " << thermalization_sweeps_ << " thermalization sweeps." << std::endl
+        ;
+    return strm;
+}

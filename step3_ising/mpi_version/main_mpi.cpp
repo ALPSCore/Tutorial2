@@ -41,6 +41,9 @@ int main(int argc, char* argv[])
                   << std::endl;
         my_sim_type sim(parameters, comm); 
 
+        // Print the simulation values, for our convenience:
+        if (is_master) sim.print_params(std::cout);
+
         // Run the simulation
         std::cout << "Running simulation on rank " << rank
                   << std::endl;
