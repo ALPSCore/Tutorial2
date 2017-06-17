@@ -1,5 +1,5 @@
---- ../main.cpp	2017-02-24 09:16:26.629402926 -0500
-+++ main_mpi.cpp	2017-06-08 22:27:59.470923682 -0400
+--- ../main.cpp	2017-06-17 01:00:34.783929678 -0400
++++ main_mpi.cpp	2017-06-17 01:00:59.395851358 -0400
 @@ -1,8 +1,10 @@
  #include "ising.hpp"
  #include <iostream>
@@ -57,7 +57,7 @@
          // Print results
          std::cout << "All measured results:"
                    << std::endl;
-@@ -66,6 +75,7 @@
+@@ -62,6 +71,7 @@
                    << std::endl;
  
          

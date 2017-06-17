@@ -1,5 +1,5 @@
---- step1_pi/main.cpp	2017-02-24 09:16:26.629402926 -0500
-+++ step2_parallel_pi/main.cpp	2017-02-24 09:16:26.629402926 -0500
+--- step1_pi/main.cpp	2017-06-17 00:49:29.801916286 -0400
++++ step2_parallel_pi/main.cpp	2017-06-17 00:53:44.089195144 -0400
 @@ -1,5 +1,6 @@
  #include <iostream>
  #include <alps/mc/stop_callback.hpp>
@@ -57,9 +57,9 @@
      // Print all results:
      std::cout << "All results:\n" << results << std::endl;
  
-@@ -61,6 +75,7 @@
-               << " ... "
-               << pi_result.mean<double>()+pi_result.error<double>()
+@@ -56,6 +70,7 @@
+               << pi_result.mean<double>()
+               << " +/- " << pi_result.error<double>()
                << std::endl;
 +    }
  

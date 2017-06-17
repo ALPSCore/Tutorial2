@@ -65,16 +65,11 @@ int main(int argc, char** argv)
         // should get $\pi$:
         aa::result_wrapper pi_result=r*4.;
 
-        // print the mean:
-        std::cout << "Mean: " << pi_result.mean<double>() << std::endl;
-    
-        // print the error bar, and the range:
-        std::cout << "Error: " << pi_result.error<double>() << std::endl;
-        std::cout << "Range: "
-                  << pi_result.mean<double>()-pi_result.error<double>()
-                  << " ... "
-                  << pi_result.mean<double>()+pi_result.error<double>()
-                  << std::endl;
+        // print the mean and the error bar:
+        std::cout << "pi = "
+              << pi_result.mean<double>()
+              << " +/- " << pi_result.error<double>()
+              << std::endl;
     }
 
     return 0;

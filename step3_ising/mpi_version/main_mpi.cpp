@@ -68,10 +68,6 @@ int main(int argc, char* argv[])
         // Derived result: Binder Cumulant
         aa::result_wrapper binder_cumulant=1-mag4/(3*mag2*mag2);
         std::cout << "Binder cumulant: " << binder_cumulant
-                  << "\nrange: "
-                  << binder_cumulant.mean<double>() - binder_cumulant.error<double>()
-                  << " ... "
-                  << binder_cumulant.mean<double>() + binder_cumulant.error<double>()
                   << std::endl;
 
         
